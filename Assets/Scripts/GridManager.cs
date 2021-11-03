@@ -37,19 +37,19 @@ public class GridManager : MonoBehaviour
     
     void GenerateShips()
     {
-        var carrier_Tile = Instantiate(carrierPrefab, new Vector3((float)12.8, (float) 8.8), Quaternion.identity);
+        var carrier_Tile = Instantiate(carrierPrefab, new Vector3((float)14.31923, (float)8.415385), Quaternion.identity);
         carrier_Tile.name = $"Carrier";
 
-        var battleship_Tile = Instantiate(battleshipPrefab, new Vector3((float)12.5, (float)7.5), Quaternion.identity);
+        var battleship_Tile = Instantiate(battleshipPrefab, new Vector3((float)12.34616, (float)1.98077), Quaternion.identity);
         battleship_Tile.name = $"Battleship";
 
-        var cruiser_Tile = Instantiate(cruiserPrefab, new Vector3((float)12.5, (float)6.6), Quaternion.identity);
+        var cruiser_Tile = Instantiate(cruiserPrefab, new Vector3((float)13.96154, (float)8.33077), Quaternion.identity);
         cruiser_Tile.name = $"Cruiser";
 
-        var destroyer_Tile = Instantiate(destroyerPrefab, new Vector3((float)12.5, (float)5.8), Quaternion.identity);
+        var destroyer_Tile = Instantiate(destroyerPrefab, new Vector3((float)14.01923, (float)2.261538), Quaternion.identity);
         destroyer_Tile.name = $"Destroyer";
 
-        var sub_Tile = Instantiate(subPrefab, new Vector3((float)12.0, (float)4.8), Quaternion.identity);
+        var sub_Tile = Instantiate(subPrefab, new Vector3((float)11.01923, (float)4.819231), Quaternion.identity);
         sub_Tile.name = $"Submarine";
         
         

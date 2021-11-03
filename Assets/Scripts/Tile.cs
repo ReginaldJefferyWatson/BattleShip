@@ -8,13 +8,12 @@ public class Tile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        Debug.Log("On Tile");
+        Debug.Log(transform.position);
         highlight.SetActive(true);
     }
 
     void OnMouseExit()
     {
-        Debug.Log("Off Tile");
-        highlight.SetActive(true);
+        highlight.SetActive(false);
     }
 }

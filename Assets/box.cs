@@ -18,6 +18,11 @@ public class box : MonoBehaviour
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
             this.gameObject.transform.localPosition = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY, 0);
+
+            if (Input.GetKeyDown("space"))
+            {
+                this.gameObject.transform.eulerAngles = Vector3.forward * 90;
+            }
         }
     }
 

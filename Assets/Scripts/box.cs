@@ -47,4 +47,13 @@ public class box : MonoBehaviour
     {
         isBeingHeld = false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log("HI");
+        if (collider.gameObject.tag == "tile")
+        {
+            Debug.Log("HI");
+        }
+    }
 }

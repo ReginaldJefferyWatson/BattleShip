@@ -13,6 +13,6 @@ public class Submarine : MonoBehaviour
 
     void OnMouseExit()
     {
-        highlight.SetActive(true);
+        highlight.SetActive(false);
     }
 }

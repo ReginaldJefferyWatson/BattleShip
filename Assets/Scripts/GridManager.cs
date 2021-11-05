@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private int width, height;
+    [SerializeField] private int width, height, distance;
     [SerializeField] private Tile tilePrefab;
     [SerializeField] private Transform cam;
 
@@ -19,6 +19,7 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         GenerateGrid();
+        GenerateEnemyGrid();
         GenerateShips();
     }
 
@@ -34,7 +35,20 @@ public class GridManager : MonoBehaviour
         }
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
     }
-    
+
+    void GenerateEnemyGrid()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y + height + distance), Quaternion.identity);
+                spawnedTile.name = $"Enemy Tile {x} {y}";
+            }
+        }
+        cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
+    }
+
     void GenerateShips()
     {
         var carrier_Tile = Instantiate(carrierPrefab, new Vector3((float)10.5, (float) 7), Quaternion.identity);
@@ -51,11 +65,6 @@ public class GridManager : MonoBehaviour
 
         var sub_Tile = Instantiate(subPrefab, new Vector3((float)12.0, (float)1), Quaternion.identity);
         sub_Tile.name = $"Submarine";
-        
-        
-        
-        
-        //cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
     }
     
 

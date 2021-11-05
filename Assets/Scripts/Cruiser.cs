@@ -13,6 +13,6 @@ public class Cruiser : MonoBehaviour
 
     void OnMouseExit()
     {
-        highlight.SetActive(true);
+        highlight.SetActive(false);
     }
 }

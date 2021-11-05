@@ -13,6 +13,6 @@ public class Battleship : MonoBehaviour
 
     void OnMouseExit()
     {
-        highlight.SetActive(true);
+        highlight.SetActive(false);
     }
 }

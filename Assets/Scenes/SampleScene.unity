@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.9186163
+  orthographic size: 14
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 10
   height: 10
+  distance: 2
   tilePrefab: {fileID: 7745901144918923909, guid: 8772eb030f2f2cc4b8bff69a766856dc, type: 3}
   cam: {fileID: 519420032}
   subPrefab: {fileID: 4886545464743941051, guid: c2b2b904d6e984e4fb59a83c512023b5, type: 3}

@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 3495826211344110635, guid: 93aa014b1ffe2b74caa3ea07635293be, type: 3}
+  occupied: 0
 --- !u!61 &-5714011492058086295
 BoxCollider2D:
   m_ObjectHideFlags: 0

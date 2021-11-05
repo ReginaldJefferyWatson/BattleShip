@@ -26,6 +26,8 @@ public class box : MonoBehaviour
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, rotZ);
             }
         }
+
+        //if(this.gameObject.GetComponent
     }
 
     private void OnMouseDown()
@@ -48,12 +50,15 @@ public class box : MonoBehaviour
         isBeingHeld = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("HI");
-        if (collider.gameObject.tag == "tile")
-        {
-            Debug.Log("HI");
-        }
+        Debug.Log(collision.gameObject.tag);
+        collision.gameObject.GetComponent<Tile>().occupied = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log(collision.gameObject.tag);
+        collision.gameObject.GetComponent<Tile>().occupied = false;
     }
 }

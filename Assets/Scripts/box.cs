@@ -8,6 +8,7 @@ public class box : MonoBehaviour
     private float startPosX;
     private float startPosY;
     private bool isBeingHeld = false;
+    private float rotZ = 0;
 
     void Update()
     {
@@ -21,7 +22,8 @@ public class box : MonoBehaviour
 
             if (Input.GetKeyDown("space"))
             {
-                this.gameObject.transform.eulerAngles = Vector3.forward * 90;
+                rotZ += 90;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 0, rotZ);
             }
         }
     }

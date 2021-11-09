@@ -46,7 +46,7 @@ public class GridManager : MonoBehaviour
                 spawnedTile.name = $"Enemy Tile {x} {y}";
             }
         }
-        cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
+        //cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
     }
 
     void GenerateShips()
@@ -67,5 +67,9 @@ public class GridManager : MonoBehaviour
         sub_Tile.name = $"Submarine";
     }
     
+    public void adjustCamera()
+    {
+        cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
+    }
 
 }

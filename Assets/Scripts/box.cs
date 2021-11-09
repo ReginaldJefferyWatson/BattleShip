@@ -18,11 +18,21 @@ public class box : MonoBehaviour
             mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            this.gameObject.transform.localPosition = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY, 0);
+            //this.gameObject.transform.localPosition = new Vector3(mousePos.x - startPosX, mousePos.y - startPosY, 0);
+
+            //For even-length ships
+            if (this.gameObject.name == "Battleship" || this.gameObject.name == "Destroyer")
+            {
+                this.gameObject.transform.localPosition = new Vector3(Mathf.RoundToInt(mousePos.x - startPosX), Mathf.RoundToInt(mousePos.y - startPosY) - 0.5f, 0);
+            }
+            else
+            {
+                this.gameObject.transform.localPosition = new Vector3(Mathf.RoundToInt(mousePos.x - startPosX), Mathf.RoundToInt(mousePos.y - startPosY), 0);
+            }
 
             if (Input.GetKeyDown("space"))
             {
-                rotZ += 90;
+                rotZ -= 90;
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, rotZ);
             }
         }

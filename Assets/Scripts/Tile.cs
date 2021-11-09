@@ -5,10 +5,10 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
+    public bool occupied = false;
 
     void OnMouseEnter()
     {
-        Debug.Log(transform.position);
         highlight.SetActive(true);
     }
 

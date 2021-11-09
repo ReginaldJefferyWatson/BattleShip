@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
     public bool occupied = false;
+    public bool attacked = false;
 
     void OnMouseEnter()
     {
@@ -15,5 +16,10 @@ public class Tile : MonoBehaviour
     void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    public void tileAttacked()
+    {
+        attacked = true;
     }
 }

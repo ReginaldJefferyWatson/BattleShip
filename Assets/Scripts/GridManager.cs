@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private int width, height, distance;
     [SerializeField] private Tile tilePrefab;
+    [SerializeField] private Tile enemyTilePrefab;
     [SerializeField] private Transform cam;
 
 
@@ -42,7 +43,7 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y + height + distance), Quaternion.identity);
+                var spawnedTile = Instantiate(enemyTilePrefab, new Vector3(x, y + height + distance), Quaternion.identity);
                 spawnedTile.name = $"Enemy Tile {x} {y}";
             }
         }

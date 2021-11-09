@@ -7,6 +7,7 @@ public class Battleship : MonoBehaviour
     [SerializeField] private GameObject highlight;
     private bool intact;
     private List<(int, int)> shipCoords;
+    private List<bool> hit;
 
     void OnMouseEnter()
     {

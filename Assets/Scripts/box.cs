@@ -23,7 +23,15 @@ public class box : MonoBehaviour
             //For even-length ships
             if (this.gameObject.name == "Battleship" || this.gameObject.name == "Destroyer")
             {
-                this.gameObject.transform.localPosition = new Vector3(Mathf.RoundToInt(mousePos.x - startPosX), Mathf.RoundToInt(mousePos.y - startPosY) - 0.5f, 0);
+                //To account for weird ass sideways angles
+                if (rotZ == 90 || rotZ == -90)
+                {
+                    this.gameObject.transform.localPosition = new Vector3(Mathf.RoundToInt(mousePos.x - startPosX) - 0.5f, Mathf.RoundToInt(mousePos.y - startPosY), 0);
+                }
+                else
+                {
+                    this.gameObject.transform.localPosition = new Vector3(Mathf.RoundToInt(mousePos.x - startPosX), Mathf.RoundToInt(mousePos.y - startPosY) - 0.5f, 0);
+                }
             }
             else
             {
@@ -32,7 +40,15 @@ public class box : MonoBehaviour
 
             if (Input.GetKeyDown("space"))
             {
-                rotZ -= 90;
+                //To reset the rotation
+                if (rotZ == -180)
+                {
+                    rotZ = 90;
+                }
+                else
+                {
+                    rotZ -= 90;
+                }
                 this.gameObject.transform.rotation = Quaternion.Euler(0, 0, rotZ);
             }
         }
@@ -64,6 +80,7 @@ public class box : MonoBehaviour
     {
         Debug.Log(collision.gameObject.tag);
         collision.gameObject.GetComponent<Tile>().occupied = true;
+        collision.gameObject.SetActive(false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

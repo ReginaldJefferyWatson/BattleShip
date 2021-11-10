@@ -79,15 +79,12 @@ public class box : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collision.gameObject.GetComponent<Tile>().occupied = true;
-        collision.gameObject.GetComponent<Tile>().occupier = this.gameObject.name;
-        collision.gameObject.SetActive(false);
-
-        collision.gameObject.SetActive(false);
+        collision.gameObject.GetComponent<Tile>().occupier = gameObject;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         collision.gameObject.GetComponent<Tile>().occupied = false;
+        collision.gameObject.GetComponent<Tile>().occupier = null;
     }
 }

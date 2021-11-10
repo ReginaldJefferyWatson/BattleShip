@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -745364634383793920}
   - component: {fileID: -3919883068167465915}
   - component: {fileID: -1051953429182026239}
+  - component: {fileID: 3814514948061432754}
   m_Layer: 0
   m_Name: Submarine
   m_TagString: Untagged
@@ -123,7 +124,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 1.0093899, y: 2.8885472}
+  m_Size: {x: 0.5807787, y: 1.9486079}
   m_EdgeRadius: 0
 --- !u!114 &-3919883068167465915
 MonoBehaviour:
@@ -150,3 +151,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 3
+--- !u!50 &3814514948061432754
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230996189550316944}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

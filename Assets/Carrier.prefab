@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -11438592997174973}
   - component: {fileID: 1221023422755365934}
   - component: {fileID: -5684915275954122024}
+  - component: {fileID: 8995384819567104842}
   m_Layer: 0
   m_Name: Carrier
   m_TagString: Untagged
@@ -123,7 +124,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1282535, y: 5.2218647}
+  m_Size: {x: 0.66706765, y: 4.6007786}
   m_EdgeRadius: 0
 --- !u!114 &1221023422755365934
 MonoBehaviour:
@@ -150,3 +151,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 5
+--- !u!50 &8995384819567104842
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297704963455960043}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

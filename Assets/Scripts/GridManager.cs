@@ -18,6 +18,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject cheatButton;
+    [SerializeField] private GameObject invalidPlacementButton;
 
     public List<Tile> ourTileList;
     public Battleship ourBattleship;
@@ -142,6 +143,11 @@ public class GridManager : MonoBehaviour
         {
             Debug.Log("Incorrect Ship Placement!");
 
+            invalidPlacementButton.SetActive(true);
+            //Time delay
+            invalidPlacementButton.SetActive(false);
+
+
             //Clear coordinates from ships
             ourBattleship.GetComponent<Battleship>().shipCoords.Clear();
             ourCarrier.GetComponent<Carrier>().shipCoords.Clear();
@@ -165,5 +171,4 @@ public class GridManager : MonoBehaviour
         }
 
     }
-
 }

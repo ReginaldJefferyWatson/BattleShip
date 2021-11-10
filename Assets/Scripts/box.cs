@@ -81,9 +81,9 @@ public class box : MonoBehaviour
         //Don't allow placement on top of one another
         if(collision.gameObject.GetComponent<Tile>().occupied == true)
         {
-            isBeingHeld = false;
+            //isBeingHeld = false;
             //Janky af
-            this.gameObject.transform.localPosition = new Vector3(12f, 7.5f, 0);
+            //this.gameObject.transform.localPosition = new Vector3(12f, 7.5f, 0);
 
         }
 

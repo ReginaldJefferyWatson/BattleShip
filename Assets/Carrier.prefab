@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 3495826211344110635, guid: 93aa014b1ffe2b74caa3ea07635293be, type: 3}
+  size: 0
 --- !u!61 &-11438592997174973
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -166,9 +167,9 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7

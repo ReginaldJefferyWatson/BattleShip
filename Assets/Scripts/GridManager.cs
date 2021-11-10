@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Battleship battleshipPrefab;
 
     public List<Tile> ourTileList;
+    public Battleship ourBattleship;
     
 
     void Start()
@@ -60,6 +61,7 @@ public class GridManager : MonoBehaviour
 
         var battleship_Tile = Instantiate(battleshipPrefab, new Vector3((float)12, (float)7.5), Quaternion.identity);
         battleship_Tile.name = $"Battleship";
+        ourBattleship = battleship_Tile;
 
         var cruiser_Tile = Instantiate(cruiserPrefab, new Vector3((float)10.5, (float)2), Quaternion.identity);
         cruiser_Tile.name = $"Cruiser";
@@ -76,7 +78,7 @@ public class GridManager : MonoBehaviour
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
     }
 
-    public void checkValid()
+    public void addCoords()
     {
         foreach(Tile ourTile in ourTileList)
         {
@@ -105,6 +107,15 @@ public class GridManager : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    //To check the validity of ship placement, and to call subsequent transitions afterwards
+    public void checkValid()
+    {
+        if(ourBattleship.GetComponent<Battleship>().size != ourBattleship.GetComponent<Battleship>().shipCoords.Count)
+        {
+            Debug.Log("Incorrect Ship Placement!");
         }
     }
 

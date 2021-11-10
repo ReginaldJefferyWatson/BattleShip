@@ -78,24 +78,27 @@ public class box : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Don't allow placement on top of one another
-        if(collision.gameObject.GetComponent<Tile>().occupied == true)
-        {
-            //isBeingHeld = false;
-            //Janky af
-            //this.gameObject.transform.localPosition = new Vector3(12f, 7.5f, 0);
-
-        }
-
         collision.gameObject.GetComponent<Tile>().occupied = true;
         collision.gameObject.GetComponent<Tile>().occupier = gameObject;
-        //collision.gameObject.GetComponent<Tile>().occupierName = gameObject.name;
+
+        //Add current object to list of tile occupants
+        collision.gameObject.GetComponent<Tile>().curOccupants.Add(gameObject);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<Tile>().occupied = false;
-        collision.gameObject.GetComponent<Tile>().occupier = null;
-        //collision.gameObject.GetComponent<Tile>().occupierName = "";
+        collision.gameObject.GetComponent<Tile>().curOccupants.Remove(gameObject);
+
+        //Check if there are any occupants left on the tile
+        if(collision.gameObject.GetComponent<Tile>().curOccupants.Count == 0)
+        {
+            collision.gameObject.GetComponent<Tile>().occupied = false;
+            collision.gameObject.GetComponent<Tile>().occupier = null;
+        }
+        else
+        {
+            //Set current occupier as the one first added to the space
+            collision.gameObject.GetComponent<Tile>().occupier = collision.gameObject.GetComponent<Tile>().curOccupants[0];
+        }
     }
 }

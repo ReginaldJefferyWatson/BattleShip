@@ -7,8 +7,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private GameObject highlight;
     public bool occupied = false;
     public GameObject occupier = null;
-    //public string occupierName = "";
     public bool attacked = false;
+
+    public List<GameObject> curOccupants = new List<GameObject>();
 
     void OnMouseEnter()
     {

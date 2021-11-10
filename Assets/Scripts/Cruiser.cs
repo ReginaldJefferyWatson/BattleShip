@@ -19,4 +19,12 @@ public class Cruiser : MonoBehaviour
     {
         highlight.SetActive(false);
     }
+
+    public void checkValid()
+    {
+        if (shipCoords.Count != size)
+        {
+            Debug.Log("Incorrect ship placement!");
+        }
+    }
 }

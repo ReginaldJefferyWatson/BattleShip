@@ -78,6 +78,15 @@ public class box : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Don't allow placement on top of one another
+        if(collision.gameObject.GetComponent<Tile>().occupied == true)
+        {
+            isBeingHeld = false;
+            //Janky af
+            this.gameObject.transform.localPosition = new Vector3(12f, 7.5f, 0);
+
+        }
+
         collision.gameObject.GetComponent<Tile>().occupied = true;
         collision.gameObject.GetComponent<Tile>().occupier = gameObject;
         //collision.gameObject.GetComponent<Tile>().occupierName = gameObject.name;

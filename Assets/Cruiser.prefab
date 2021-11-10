@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 3495826211344110635, guid: 93aa014b1ffe2b74caa3ea07635293be, type: 3}
+  size: 3
 --- !u!61 &4476333582811282620
 BoxCollider2D:
   m_ObjectHideFlags: 0

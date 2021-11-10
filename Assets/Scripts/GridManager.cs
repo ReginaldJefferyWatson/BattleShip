@@ -16,9 +16,26 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Carrier carrierPrefab;
     [SerializeField] private Battleship battleshipPrefab;
 
+    [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject cheatButton;
+
     public List<Tile> ourTileList;
     public Battleship ourBattleship;
-    
+    public Carrier ourCarrier;
+    public Cruiser ourCruiser;
+    public Destroyer ourDestroyer;
+    public Submarine ourSubmarine;
+
+    float ourBattleshipX = 12f;
+    float ourBattleshipY = 7.5f;
+    float ourCarrierX = 10.5f;
+    float ourCarrierY = 7f;
+    float ourCruiserX = 10.5f;
+    float ourCruiserY = 2f;
+    float ourDestroyerX = 12f;
+    float ourDestroyerY = 4f;
+    float ourSubmarineX = 12f;
+    float ourSubmarineY = 1f;
 
     void Start()
     {
@@ -56,21 +73,25 @@ public class GridManager : MonoBehaviour
 
     void GenerateShips()
     {
-        var carrier_Tile = Instantiate(carrierPrefab, new Vector3((float)10.5, (float) 7), Quaternion.identity);
+        var carrier_Tile = Instantiate(carrierPrefab, new Vector3(ourCarrierX, ourCarrierY), Quaternion.identity);
         carrier_Tile.name = $"Carrier";
+        ourCarrier = carrier_Tile;
 
-        var battleship_Tile = Instantiate(battleshipPrefab, new Vector3((float)12, (float)7.5), Quaternion.identity);
+        var battleship_Tile = Instantiate(battleshipPrefab, new Vector3(ourBattleshipX, ourBattleshipY), Quaternion.identity);
         battleship_Tile.name = $"Battleship";
         ourBattleship = battleship_Tile;
 
-        var cruiser_Tile = Instantiate(cruiserPrefab, new Vector3((float)10.5, (float)2), Quaternion.identity);
+        var cruiser_Tile = Instantiate(cruiserPrefab, new Vector3(ourCruiserX, ourCruiserY), Quaternion.identity);
         cruiser_Tile.name = $"Cruiser";
+        ourCruiser = cruiser_Tile;
 
-        var destroyer_Tile = Instantiate(destroyerPrefab, new Vector3((float)12.0, (float)4), Quaternion.identity);
+        var destroyer_Tile = Instantiate(destroyerPrefab, new Vector3(ourDestroyerX, ourDestroyerY), Quaternion.identity);
         destroyer_Tile.name = $"Destroyer";
+        ourDestroyer = destroyer_Tile;
 
-        var sub_Tile = Instantiate(subPrefab, new Vector3((float)12.0, (float)1), Quaternion.identity);
+        var sub_Tile = Instantiate(subPrefab, new Vector3(ourSubmarineX, ourSubmarineY), Quaternion.identity);
         sub_Tile.name = $"Submarine";
+        ourSubmarine = sub_Tile;
     }
     
     public void adjustCamera()
@@ -113,10 +134,36 @@ public class GridManager : MonoBehaviour
     //To check the validity of ship placement, and to call subsequent transitions afterwards
     public void checkValid()
     {
-        if(ourBattleship.GetComponent<Battleship>().size != ourBattleship.GetComponent<Battleship>().shipCoords.Count)
+        if ((ourBattleship.GetComponent<Battleship>().size != ourBattleship.GetComponent<Battleship>().shipCoords.Count) ||
+        (ourCarrier.GetComponent<Carrier>().size != ourCarrier.GetComponent<Carrier>().shipCoords.Count) ||
+        (ourCruiser.GetComponent<Cruiser>().size != ourCruiser.GetComponent<Cruiser>().shipCoords.Count) ||
+        (ourDestroyer.GetComponent<Destroyer>().size != ourDestroyer.GetComponent<Destroyer>().shipCoords.Count) ||
+        (ourSubmarine.GetComponent<Submarine>().size != ourSubmarine.GetComponent<Submarine>().shipCoords.Count))
         {
             Debug.Log("Incorrect Ship Placement!");
+
+            //Clear coordinates from ships
+            ourBattleship.GetComponent<Battleship>().shipCoords.Clear();
+            ourCarrier.GetComponent<Carrier>().shipCoords.Clear();
+            ourCruiser.GetComponent<Cruiser>().shipCoords.Clear();
+            ourDestroyer.GetComponent<Destroyer>().shipCoords.Clear();
+            ourSubmarine.GetComponent<Submarine>().shipCoords.Clear();
+
+            //Reset back to original positions
+            ourBattleship.transform.position = new Vector3(ourBattleshipX, ourBattleshipY);
+            ourCarrier.transform.position = new Vector3(ourCarrierX, ourCarrierY);
+            ourCruiser.transform.position = new Vector3(ourCruiserX, ourCruiserY);
+            ourDestroyer.transform.position = new Vector3(ourDestroyerX, ourDestroyerY);
+            ourSubmarine.transform.position = new Vector3(ourSubmarineX, ourSubmarineY);
         }
+        else
+        {
+            cam.GetComponent<Camera>().orthographicSize = 14;
+            adjustCamera();
+            startButton.SetActive(false);
+            cheatButton.SetActive(true);
+        }
+
     }
 
 }

@@ -392,56 +392,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1899569517}
         m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
-        m_MethodName: adjustCamera
+        m_MethodName: addCoords
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 519420031}
-        m_TargetAssemblyTypeName: UnityEngine.Camera, UnityEngine
-        m_MethodName: set_orthographicSize
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 14
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1247547882}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1196550737348979017, guid: 5e3506e7d51b3654fa563fbf08d686c1, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: 
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1790783926}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -995,7 +947,14 @@ MonoBehaviour:
   cruiserPrefab: {fileID: -5458268935397410586, guid: 09ed3a23d4db6e24780f487d92c20810, type: 3}
   carrierPrefab: {fileID: -4701827489056981878, guid: 8aec006efbaf8b44f8e4fe4677287fb6, type: 3}
   battleshipPrefab: {fileID: 8770493879178529924, guid: 5e3506e7d51b3654fa563fbf08d686c1, type: 3}
+  startButton: {fileID: 1247547882}
+  cheatButton: {fileID: 1790783926}
   ourTileList: []
+  ourBattleship: {fileID: 0}
+  ourCarrier: {fileID: 0}
+  ourCruiser: {fileID: 0}
+  ourDestroyer: {fileID: 0}
+  ourSubmarine: {fileID: 0}
 --- !u!4 &1899569518
 Transform:
   m_ObjectHideFlags: 0

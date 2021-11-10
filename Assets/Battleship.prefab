@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8770493879178529924}
   - component: {fileID: -126966995436078637}
   - component: {fileID: -4287695288191426909}
+  - component: {fileID: 5736612831150687255}
   m_Layer: 0
   m_Name: Battleship
   m_TagString: Untagged
@@ -136,3 +137,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed74f2e24de21af48928eb579eec04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5736612831150687255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196550737348979017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4865aa0a7fa6094ea81a2fe97583b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 4

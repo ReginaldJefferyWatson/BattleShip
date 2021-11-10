@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4097304815617002709}
-  - component: {fileID: 4886545464743941051}
+  - component: {fileID: 26109724696968960}
   - component: {fileID: -8304308811297296131}
   - component: {fileID: -745364634383793920}
   - component: {fileID: -3919883068167465915}
+  - component: {fileID: -1051953429182026239}
   m_Layer: 0
   m_Name: Submarine
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4886545464743941051
+--- !u!114 &26109724696968960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,3 +137,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed74f2e24de21af48928eb579eec04f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1051953429182026239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230996189550316944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4865aa0a7fa6094ea81a2fe97583b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 3

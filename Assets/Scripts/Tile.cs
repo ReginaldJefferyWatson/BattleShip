@@ -6,7 +6,8 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
     public bool occupied = false;
-    public GameObject occupier;
+    public GameObject occupier = null;
+    //public string occupierName = "";
     public bool attacked = false;
 
     void OnMouseEnter()
@@ -21,6 +22,6 @@ public class Tile : MonoBehaviour
 
     public void addShipTiles()
     {
-
+        Debug.Log(gameObject.name);
     }
 }

@@ -15,6 +15,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Cruiser cruiserPrefab;
     [SerializeField] private Carrier carrierPrefab;
     [SerializeField] private Battleship battleshipPrefab;
+
+    public List<Tile> ourTileList;
     
 
     void Start()
@@ -32,6 +34,7 @@ public class GridManager : MonoBehaviour
             {
                 var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
+                ourTileList.Add(spawnedTile);
             }
         }
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
@@ -71,6 +74,38 @@ public class GridManager : MonoBehaviour
     public void adjustCamera()
     {
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
+    }
+
+    public void checkValid()
+    {
+        foreach(Tile ourTile in ourTileList)
+        {
+            //Only execute for occupied tiles
+            if(ourTile.occupier)
+            {
+                if(ourTile.occupier.name == "Battleship")
+                {
+                    ourTile.occupier.GetComponent<Battleship>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                }
+                else if(ourTile.occupier.name == "Carrier")
+                {
+                    ourTile.occupier.GetComponent<Carrier>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                }
+                else if (ourTile.occupier.name == "Cruiser")
+                {
+                    ourTile.occupier.GetComponent<Cruiser>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                }
+                else if (ourTile.occupier.name == "Destroyer")
+                {
+                    ourTile.occupier.GetComponent<Destroyer>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                }
+                else if (ourTile.occupier.name == "Submarine")
+                {
+                    ourTile.occupier.GetComponent<Submarine>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                }
+            }
+
+        }
     }
 
 }

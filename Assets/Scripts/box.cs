@@ -80,11 +80,13 @@ public class box : MonoBehaviour
     {
         collision.gameObject.GetComponent<Tile>().occupied = true;
         collision.gameObject.GetComponent<Tile>().occupier = gameObject;
+        //collision.gameObject.GetComponent<Tile>().occupierName = gameObject.name;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         collision.gameObject.GetComponent<Tile>().occupied = false;
         collision.gameObject.GetComponent<Tile>().occupier = null;
+        //collision.gameObject.GetComponent<Tile>().occupierName = "";
     }
 }

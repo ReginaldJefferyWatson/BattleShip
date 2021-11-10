@@ -6,7 +6,8 @@ public class Battleship : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
     private bool intact;
-    private List<(int, int)> shipCoords;
+    public int size;
+    public List<(int, int)> shipCoords = new List<(int, int)>();
     private List<bool> hit;
 
     void OnMouseEnter()
@@ -17,5 +18,13 @@ public class Battleship : MonoBehaviour
     void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    public void checkValid()
+    {
+        if (shipCoords.Count != size)
+        {
+            Debug.Log("Incorrect ship placement!");
+        }
     }
 }

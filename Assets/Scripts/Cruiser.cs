@@ -5,6 +5,10 @@ using UnityEngine;
 public class Cruiser : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
+    private bool intact;
+    public int size;
+    public List<(int, int)> shipCoords = new List<(int, int)>();
+    private List<bool> hit;
 
     void OnMouseEnter()
     {

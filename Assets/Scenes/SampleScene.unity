@@ -599,7 +599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 295.5, y: -241.64963}
+  m_AnchoredPosition: {x: 227, y: -240.37}
   m_SizeDelta: {x: 121.4965, y: 40.2676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1247547884
@@ -1012,7 +1012,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -295.6, y: -240.37}
+  m_AnchoredPosition: {x: -226.5, y: -240.37}
   m_SizeDelta: {x: 115.5157, y: 40.26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790783928
@@ -1058,7 +1058,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1790783929}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1899569517}
+        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+        m_MethodName: cheatButtonPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1790783929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,6 +1224,14 @@ MonoBehaviour:
   ourCruiser: {fileID: 0}
   ourDestroyer: {fileID: 0}
   ourSubmarine: {fileID: 0}
+  ourEnemyTileList: []
+  enemyBattleship: {fileID: 0}
+  enemyCarrier: {fileID: 0}
+  enemyCruiser: {fileID: 0}
+  enemyDestroyer: {fileID: 0}
+  enemySubmarine: {fileID: 0}
+  rotations: a6ffffff000000005a000000b4000000
+  properPosition: 0
 --- !u!4 &1899569518
 Transform:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
     public bool occupied = false;
+    public bool occupiedGameStart = false;
     public GameObject occupier = null;
     public bool attacked = false;
 

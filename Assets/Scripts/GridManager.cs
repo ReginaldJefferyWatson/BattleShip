@@ -34,7 +34,7 @@ public class GridManager : MonoBehaviour
     public Destroyer enemyDestroyer;
     public Submarine enemySubmarine;
     public List<int> rotations = new List<int> { -90, 0, 90, 180 };
-    private bool properPosition = false;
+    public bool properPosition = false;
     private bool collisionSwitch = false;
 
     float ourBattleshipX = 12f;
@@ -53,17 +53,6 @@ public class GridManager : MonoBehaviour
         GenerateGrid();
         GenerateEnemyGrid();
         GenerateShips();
-        //GenerateEnemyShips();
-
-        //To allow collisions to happen
-        /*
-        while (tracker < 10)
-        {
-            GenerateEnemyShips();
-            StartCoroutine(enemyShipDetect());
-            tracker++;
-        }
-        */
     }
 
     //Because of how collisions work, we have to check at the next frame for ships touching tile. We
@@ -305,6 +294,15 @@ public class GridManager : MonoBehaviour
             adjustCamera();
             startButton.SetActive(false);
             cheatButton.SetActive(true);
+
+            //Record actual final positions of ships
+            foreach (Tile ourTile in ourTileList)
+            {
+                if (ourTile.occupied == true)
+                {
+                    ourTile.occupiedGameStart = true;
+                }
+            }
         }
 
     }
@@ -331,6 +329,28 @@ public class GridManager : MonoBehaviour
             //Break out of assignment loop
             Debug.Log("PROPER!");
             properPosition = true;
+
+            //Record that these tiles had the ships on them
+            foreach (Tile ourTile in ourEnemyTileList)
+            {
+                if (ourTile.occupied == true)
+                {
+                    ourTile.occupiedGameStart = true;
+                }
+            }
+
+            enemyBattleship.gameObject.SetActive(false);
+            enemyCarrier.gameObject.SetActive(false);
+            enemyCruiser.gameObject.SetActive(false);
+            enemyDestroyer.gameObject.SetActive(false);
+            enemySubmarine.gameObject.SetActive(false);
+
+            //Disallow drag and drop for the enemy ships
+            enemyBattleship.gameObject.GetComponent<box>().enabled = false;
+            enemyCarrier.gameObject.GetComponent<box>().enabled = false;
+            enemyCruiser.gameObject.GetComponent<box>().enabled = false;
+            enemyDestroyer.gameObject.GetComponent<box>().enabled = false;
+            enemySubmarine.gameObject.GetComponent<box>().enabled = false;
         }
     }
 
@@ -341,11 +361,19 @@ public class GridManager : MonoBehaviour
         invalidPlacementButton.SetActive(false);
     }
 
-    IEnumerator enemyShipDetect()
+    /*
+    IEnumerator timeDelayWelcome()
     {
-        yield return null;
+        yield return new WaitForSeconds(3);
+    }
+    */
 
-        addEnemyCoords();
-        checkEnemyValid();
+    public void cheatButtonPress()
+    {
+        enemyBattleship.gameObject.SetActive(!enemyBattleship.gameObject.activeSelf);
+        enemyCarrier.gameObject.SetActive(!enemyCarrier.gameObject.activeSelf);
+        enemyCruiser.gameObject.SetActive(!enemyCruiser.gameObject.activeSelf);
+        enemyDestroyer.gameObject.SetActive(!enemyDestroyer.gameObject.activeSelf);
+        enemySubmarine.gameObject.SetActive(!enemySubmarine.gameObject.activeSelf);
     }
 }

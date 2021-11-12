@@ -27,6 +27,16 @@ public class GridManager : MonoBehaviour
     public Destroyer ourDestroyer;
     public Submarine ourSubmarine;
 
+    public List<Tile> ourEnemyTileList;
+    public Battleship enemyBattleship;
+    public Carrier enemyCarrier;
+    public Cruiser enemyCruiser;
+    public Destroyer enemyDestroyer;
+    public Submarine enemySubmarine;
+    public List<int> rotations = new List<int> { -90, 0, 90, 180 };
+    private bool properPosition = false;
+    private bool collisionSwitch = false;
+
     float ourBattleshipX = 12f;
     float ourBattleshipY = 7.5f;
     float ourCarrierX = 10.5f;
@@ -43,6 +53,36 @@ public class GridManager : MonoBehaviour
         GenerateGrid();
         GenerateEnemyGrid();
         GenerateShips();
+        //GenerateEnemyShips();
+
+        //To allow collisions to happen
+        /*
+        while (tracker < 10)
+        {
+            GenerateEnemyShips();
+            StartCoroutine(enemyShipDetect());
+            tracker++;
+        }
+        */
+    }
+
+    //Because of how collisions work, we have to check at the next frame for ships touching tile. We
+    //will loop this until proper positions are assigned
+    private void Update()
+    {
+        if(!properPosition)
+        {
+            if (!collisionSwitch)
+            {
+                GenerateEnemyShips();
+            }
+            else
+            {
+                addEnemyCoords();
+                checkEnemyValid();
+            }
+            collisionSwitch = !collisionSwitch;
+        }
     }
 
     void GenerateGrid()
@@ -67,6 +107,7 @@ public class GridManager : MonoBehaviour
             {
                 var spawnedTile = Instantiate(enemyTilePrefab, new Vector3(x, y + height + distance), Quaternion.identity);
                 spawnedTile.name = $"Enemy Tile {x} {y}";
+                ourEnemyTileList.Add(spawnedTile);
             }
         }
         //cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
@@ -74,6 +115,7 @@ public class GridManager : MonoBehaviour
 
     void GenerateShips()
     {
+        //Friendly Ships
         var carrier_Tile = Instantiate(carrierPrefab, new Vector3(ourCarrierX, ourCarrierY), Quaternion.identity);
         carrier_Tile.name = $"Carrier";
         ourCarrier = carrier_Tile;
@@ -93,6 +135,54 @@ public class GridManager : MonoBehaviour
         var sub_Tile = Instantiate(subPrefab, new Vector3(ourSubmarineX, ourSubmarineY), Quaternion.identity);
         sub_Tile.name = $"Submarine";
         ourSubmarine = sub_Tile;
+    }
+
+    void GenerateEnemyShips() 
+    { 
+        //Enemy Ships
+        var enemy_Carrier_Tile = Instantiate(carrierPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
+        enemy_Carrier_Tile.name = $"Carrier";
+        enemyCarrier = enemy_Carrier_Tile;
+
+        int rotateVal = rotations[Random.Range(0, 3)];
+        int xVal = Random.Range(0, 9);
+        int yVal = Random.Range(12, 21);
+        var enemy_Battleship_Tile = Instantiate(battleshipPrefab, new Vector3(xVal, yVal), Quaternion.Euler(0, 0, rotateVal));
+        //If object is rotated, adjust for weird angles
+        if (rotateVal == -90 || rotateVal == 90)
+        {
+            enemy_Battleship_Tile.transform.position = new Vector3(xVal - 0.5f, yVal);
+        }
+        else
+        {
+            enemy_Battleship_Tile.transform.position = new Vector3(xVal, yVal - 0.5f);
+        }
+        enemy_Battleship_Tile.name = $"Battleship";
+        enemyBattleship = enemy_Battleship_Tile;
+
+        var enemy_Cruiser_Tile = Instantiate(cruiserPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
+        enemy_Cruiser_Tile.name = $"Cruiser";
+        enemyCruiser = enemy_Cruiser_Tile;
+
+        rotateVal = rotations[Random.Range(0, 3)];
+        xVal = Random.Range(0, 9);
+        yVal = Random.Range(12, 21);
+        var enemy_Destroyer_Tile = Instantiate(destroyerPrefab, new Vector3(xVal, yVal), Quaternion.Euler(0, 0, rotateVal));
+        //Same rotate logic as above
+        if (rotateVal == -90 || rotateVal == 90)
+        {
+            enemy_Destroyer_Tile.transform.position = new Vector3(xVal - 0.5f, yVal);
+        }
+        else
+        {
+            enemy_Destroyer_Tile.transform.position = new Vector3(xVal, yVal - 0.5f);
+        }
+        enemy_Destroyer_Tile.name = $"Destroyer";
+        enemyDestroyer = enemy_Destroyer_Tile;
+
+        var enemy_Sub_Tile = Instantiate(subPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
+        enemy_Sub_Tile.name = $"Submarine";
+        enemySubmarine = enemy_Sub_Tile;
     }
     
     public void adjustCamera()
@@ -128,8 +218,49 @@ public class GridManager : MonoBehaviour
                     ourTile.occupier.GetComponent<Submarine>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
                 }
             }
-
         }
+    }
+
+    public void addEnemyCoords()
+    {
+        foreach (Tile ourTile in ourEnemyTileList)
+        {
+            //Only execute for occupied tiles
+            if (ourTile.occupier)
+            {
+                if (ourTile.occupier.name == "Battleship")
+                {
+                    ourTile.occupier.GetComponent<Battleship>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    //Debug.Log("BS");
+                }
+                else if (ourTile.occupier.name == "Carrier")
+                {
+                    ourTile.occupier.GetComponent<Carrier>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    //Debug.Log("CA");
+                }
+                else if (ourTile.occupier.name == "Cruiser")
+                {
+                    ourTile.occupier.GetComponent<Cruiser>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    //Debug.Log("CR");
+                }
+                else if (ourTile.occupier.name == "Destroyer")
+                {
+                    ourTile.occupier.GetComponent<Destroyer>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    //Debug.Log("DS");
+                }
+                else if (ourTile.occupier.name == "Submarine")
+                {
+                    ourTile.occupier.GetComponent<Submarine>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    //Debug.Log("SB");
+                }
+            }
+        }
+
+        Debug.Log(enemyBattleship.GetComponent<Battleship>().shipCoords.Count);
+        Debug.Log(enemyCarrier.GetComponent<Carrier>().shipCoords.Count);
+        Debug.Log(enemyCruiser.GetComponent<Cruiser>().shipCoords.Count);
+        Debug.Log(enemyDestroyer.GetComponent<Destroyer>().shipCoords.Count);
+        Debug.Log(enemySubmarine.GetComponent<Submarine>().shipCoords.Count);
     }
 
     //To check the validity of ship placement, and to call subsequent transitions afterwards
@@ -178,10 +309,43 @@ public class GridManager : MonoBehaviour
 
     }
 
+    public void checkEnemyValid()
+    {
+        if ((enemyBattleship.GetComponent<Battleship>().size != enemyBattleship.GetComponent<Battleship>().shipCoords.Count) ||
+        (enemyCarrier.GetComponent<Carrier>().size != enemyCarrier.GetComponent<Carrier>().shipCoords.Count) ||
+        (enemyCruiser.GetComponent<Cruiser>().size != enemyCruiser.GetComponent<Cruiser>().shipCoords.Count) ||
+        (enemyDestroyer.GetComponent<Destroyer>().size != enemyDestroyer.GetComponent<Destroyer>().shipCoords.Count) ||
+        (enemySubmarine.GetComponent<Submarine>().size != enemySubmarine.GetComponent<Submarine>().shipCoords.Count))
+        {
+
+            Destroy(enemyBattleship.gameObject);
+            Destroy(enemyCarrier.gameObject);
+            Destroy(enemyCruiser.gameObject);
+            Destroy(enemyDestroyer.gameObject);
+            Destroy(enemySubmarine.gameObject);
+
+            Debug.Log("Incorrect Enemy Placement");
+        }
+        else
+        {
+            //Break out of assignment loop
+            Debug.Log("PROPER!");
+            properPosition = true;
+        }
+    }
+
     IEnumerator timeDelay()
     {
         invalidPlacementButton.SetActive(true);
         yield return new WaitForSeconds(3);
         invalidPlacementButton.SetActive(false);
+    }
+
+    IEnumerator enemyShipDetect()
+    {
+        yield return null;
+
+        addEnemyCoords();
+        checkEnemyValid();
     }
 }

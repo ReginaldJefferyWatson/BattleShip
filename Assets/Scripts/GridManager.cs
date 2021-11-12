@@ -143,9 +143,10 @@ public class GridManager : MonoBehaviour
         {
             Debug.Log("Incorrect Ship Placement!");
 
-            invalidPlacementButton.SetActive(true);
-            //Time delay
-            invalidPlacementButton.SetActive(false);
+            //Time Delay
+            //invalidPlacementButton.SetActive(true);
+            StartCoroutine(timeDelay());
+            //invalidPlacementButton.SetActive(false);
 
 
             //Clear coordinates from ships
@@ -157,10 +158,15 @@ public class GridManager : MonoBehaviour
 
             //Reset back to original positions
             ourBattleship.transform.position = new Vector3(ourBattleshipX, ourBattleshipY);
+            ourBattleship.transform.rotation = Quaternion.Euler(0, 0, 0);
             ourCarrier.transform.position = new Vector3(ourCarrierX, ourCarrierY);
+            ourCarrier.transform.rotation = Quaternion.Euler(0, 0, 0);
             ourCruiser.transform.position = new Vector3(ourCruiserX, ourCruiserY);
+            ourCruiser.transform.rotation = Quaternion.Euler(0, 0, 0);
             ourDestroyer.transform.position = new Vector3(ourDestroyerX, ourDestroyerY);
+            ourDestroyer.transform.rotation = Quaternion.Euler(0, 0, 0);
             ourSubmarine.transform.position = new Vector3(ourSubmarineX, ourSubmarineY);
+            ourSubmarine.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
@@ -170,5 +176,12 @@ public class GridManager : MonoBehaviour
             cheatButton.SetActive(true);
         }
 
+    }
+
+    IEnumerator timeDelay()
+    {
+        invalidPlacementButton.SetActive(true);
+        yield return new WaitForSeconds(3);
+        invalidPlacementButton.SetActive(false);
     }
 }

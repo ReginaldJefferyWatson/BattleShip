@@ -8,7 +8,7 @@ public class box : MonoBehaviour
     private float startPosX;
     private float startPosY;
     private bool isBeingHeld = false;
-    private float rotZ = 0;
+    public float rotZ = 0;
 
     void Update()
     {

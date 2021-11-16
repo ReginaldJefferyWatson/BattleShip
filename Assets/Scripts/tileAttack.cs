@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class tileAttack : MonoBehaviour
 {
+
+    public GameObject GridManager;
     private void OnMouseDown()
     {
-        if(this.gameObject.GetComponent<Tile>().occupiedGameStart == true)
+        //Only allow tile to be attacked if it hasn't already been
+        if (!this.gameObject.GetComponent<Tile>().attacked)
         {
-            Debug.Log("HIT");
-        }
-        else
-        {
-            Debug.Log("MISS");
-        }
+            if (this.gameObject.GetComponent<Tile>().occupiedGameStart == true)
+            {
+                Debug.Log("HIT");
+                this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
-        this.gameObject.GetComponent<Tile>().attacked = true;
-        this.gameObject.SetActive(false);
+                //Add hit object to hit list
+                //GridManager.GetComponent<GridManager>().enemyHitSpaces.Add((1, 2));
+            }
+            else
+            {
+                Debug.Log("MISS");
+                //this.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.gameObject.SetActive(false);
+            }
+
+            this.gameObject.GetComponent<Tile>().attacked = true;
+        }
     }
 }

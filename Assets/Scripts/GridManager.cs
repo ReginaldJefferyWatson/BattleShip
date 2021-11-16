@@ -28,6 +28,7 @@ public class GridManager : MonoBehaviour
     public Submarine ourSubmarine;
 
     public List<Tile> ourEnemyTileList;
+    public List<(int, int)> enemyHitSpaces = new List<(int, int)>();
     public Battleship enemyBattleship;
     public Carrier enemyCarrier;
     public Cruiser enemyCruiser;
@@ -96,6 +97,7 @@ public class GridManager : MonoBehaviour
             {
                 var spawnedTile = Instantiate(enemyTilePrefab, new Vector3(x, y + height + distance), Quaternion.identity);
                 spawnedTile.name = $"Enemy Tile {x} {y}";
+                spawnedTile.GetComponent<tileAttack>().GridManager = this.gameObject;
                 ourEnemyTileList.Add(spawnedTile);
             }
         }
@@ -276,7 +278,14 @@ public class GridManager : MonoBehaviour
             ourDestroyer.GetComponent<Destroyer>().shipCoords.Clear();
             ourSubmarine.GetComponent<Submarine>().shipCoords.Clear();
 
-            //Reset back to original positions
+            //Clear rotation values in box
+            ourBattleship.gameObject.GetComponent<box>().rotZ = 0;
+            ourCarrier.gameObject.GetComponent<box>().rotZ = 0;
+            ourCruiser.gameObject.GetComponent<box>().rotZ = 0;
+            ourDestroyer.gameObject.GetComponent<box>().rotZ = 0;
+            ourSubmarine.gameObject.GetComponent<box>().rotZ = 0;
+
+            //Reset our ships back to original positions
             ourBattleship.transform.position = new Vector3(ourBattleshipX, ourBattleshipY);
             ourBattleship.transform.rotation = Quaternion.Euler(0, 0, 0);
             ourCarrier.transform.position = new Vector3(ourCarrierX, ourCarrierY);
@@ -339,6 +348,7 @@ public class GridManager : MonoBehaviour
                 }
             }
 
+            //Remove visibility
             enemyBattleship.gameObject.SetActive(false);
             enemyCarrier.gameObject.SetActive(false);
             enemyCruiser.gameObject.SetActive(false);
@@ -351,6 +361,8 @@ public class GridManager : MonoBehaviour
             enemyCruiser.gameObject.GetComponent<box>().enabled = false;
             enemyDestroyer.gameObject.GetComponent<box>().enabled = false;
             enemySubmarine.gameObject.GetComponent<box>().enabled = false;
+
+            //Remove hitboxes
         }
     }
 
@@ -376,4 +388,20 @@ public class GridManager : MonoBehaviour
         enemyDestroyer.gameObject.SetActive(!enemyDestroyer.gameObject.activeSelf);
         enemySubmarine.gameObject.SetActive(!enemySubmarine.gameObject.activeSelf);
     }
+
+
+    
+    /*
+    public void checkDestroyedEnemy()
+    {
+        foreach(var coord in enemyBattleship.gameObject.GetComponent<Battleship>().shipCoords)
+        {
+            if (GetComponent<tileAttack>().enemyHitSpaces.Contains(coord))
+            {
+                Debug.Log("YEP");
+            }
+        }
+    }
+    */
+    
 }

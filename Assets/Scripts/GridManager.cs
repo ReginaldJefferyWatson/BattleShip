@@ -37,6 +37,9 @@ public class GridManager : MonoBehaviour
     public List<int> rotations = new List<int> { -90, 0, 90, 180 };
     public bool properPosition = false;
     private bool collisionSwitch = false;
+    //For keeping track of the board offset
+    public int enemyTileX = 0;
+    public int enemyTileY = 12;
 
     float ourBattleshipX = 12f;
     float ourBattleshipY = 7.5f;
@@ -221,27 +224,27 @@ public class GridManager : MonoBehaviour
             {
                 if (ourTile.occupier.name == "Battleship")
                 {
-                    ourTile.occupier.GetComponent<Battleship>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
-                    //Debug.Log("BS");
+                    ourTile.occupier.GetComponent<Battleship>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y - enemyTileY));
+                    //Debug.Log(enemyBattleship.shipCoords[ourBattleship.shipCoords.Count - 1]);
                 }
                 else if (ourTile.occupier.name == "Carrier")
                 {
-                    ourTile.occupier.GetComponent<Carrier>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    ourTile.occupier.GetComponent<Carrier>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y - enemyTileY));
                     //Debug.Log("CA");
                 }
                 else if (ourTile.occupier.name == "Cruiser")
                 {
-                    ourTile.occupier.GetComponent<Cruiser>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    ourTile.occupier.GetComponent<Cruiser>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y - enemyTileY));
                     //Debug.Log("CR");
                 }
                 else if (ourTile.occupier.name == "Destroyer")
                 {
-                    ourTile.occupier.GetComponent<Destroyer>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    ourTile.occupier.GetComponent<Destroyer>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y - enemyTileY));
                     //Debug.Log("DS");
                 }
                 else if (ourTile.occupier.name == "Submarine")
                 {
-                    ourTile.occupier.GetComponent<Submarine>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
+                    ourTile.occupier.GetComponent<Submarine>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y - enemyTileY));
                     //Debug.Log("SB");
                 }
             }
@@ -391,17 +394,23 @@ public class GridManager : MonoBehaviour
 
 
     
-    /*
     public void checkDestroyedEnemy()
     {
+        //For checking if ship has been totally destroyed
+        int counter = 0;
         foreach(var coord in enemyBattleship.gameObject.GetComponent<Battleship>().shipCoords)
         {
-            if (GetComponent<tileAttack>().enemyHitSpaces.Contains(coord))
+            if (enemyHitSpaces.Contains(coord))
             {
-                Debug.Log("YEP");
+                counter++;
+
+                if(counter == enemyBattleship.size)
+                {
+                    Debug.Log("Enemy Battleship Destroyed!");
+                }
             }
         }
+        counter = 0;
     }
-    */
     
 }

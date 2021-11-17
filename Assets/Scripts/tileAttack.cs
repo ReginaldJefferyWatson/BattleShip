@@ -17,7 +17,10 @@ public class tileAttack : MonoBehaviour
                 this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
                 //Add hit object to hit list
-                //GridManager.GetComponent<GridManager>().enemyHitSpaces.Add((1, 2));
+                GridManager.GetComponent<GridManager>().enemyHitSpaces.Add(((int) this.gameObject.transform.position.x, (int)this.gameObject.transform.position.y - GridManager.GetComponent<GridManager>().enemyTileY));
+
+                //Check to see if any ships were destroyed by the move
+                GridManager.GetComponent<GridManager>().checkDestroyedEnemy();
             }
             else
             {

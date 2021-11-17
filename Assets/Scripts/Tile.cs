@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
     public bool occupied = false;
     public bool occupiedGameStart = false;
     public GameObject occupier = null;
+    public GameObject occupierGameStart;
     public bool attacked = false;
 
     public List<GameObject> curOccupants = new List<GameObject>();

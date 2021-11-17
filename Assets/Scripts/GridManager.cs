@@ -250,11 +250,13 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        /*
         Debug.Log(enemyBattleship.GetComponent<Battleship>().shipCoords.Count);
         Debug.Log(enemyCarrier.GetComponent<Carrier>().shipCoords.Count);
         Debug.Log(enemyCruiser.GetComponent<Cruiser>().shipCoords.Count);
         Debug.Log(enemyDestroyer.GetComponent<Destroyer>().shipCoords.Count);
         Debug.Log(enemySubmarine.GetComponent<Submarine>().shipCoords.Count);
+        */
     }
 
     //To check the validity of ship placement, and to call subsequent transitions afterwards
@@ -348,6 +350,7 @@ public class GridManager : MonoBehaviour
                 if (ourTile.occupied == true)
                 {
                     ourTile.occupiedGameStart = true;
+                    ourTile.occupierGameStart = ourTile.occupier;
                 }
             }
 
@@ -394,23 +397,105 @@ public class GridManager : MonoBehaviour
 
 
     
-    public void checkDestroyedEnemy()
+    public void checkDestroyedEnemy(string shipName)
     {
         //For checking if ship has been totally destroyed
         int counter = 0;
-        foreach(var coord in enemyBattleship.gameObject.GetComponent<Battleship>().shipCoords)
-        {
-            if (enemyHitSpaces.Contains(coord))
-            {
-                counter++;
 
-                if(counter == enemyBattleship.size)
+        if(shipName == "Battleship")
+        {
+            foreach (var coord in enemyBattleship.gameObject.GetComponent<Battleship>().shipCoords)
+            {
+                if (enemyHitSpaces.Contains(coord))
                 {
-                    Debug.Log("Enemy Battleship Destroyed!");
+                    counter++;
+
+                    if (counter == enemyBattleship.size)
+                    {
+                        Debug.Log("Enemy Battleship Destroyed!");
+                        enemyBattleship.intact = false;
+                    }
                 }
             }
+            counter = 0;
         }
-        counter = 0;
+        else if (shipName == "Carrier")
+        {
+            foreach (var coord in enemyCarrier.gameObject.GetComponent<Carrier>().shipCoords)
+            {
+                if (enemyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == enemyCarrier.size)
+                    {
+                        Debug.Log("Enemy Carrier Destroyed!");
+                        enemyCarrier.intact = false;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Cruiser")
+        {
+            foreach (var coord in enemyCruiser.gameObject.GetComponent<Cruiser>().shipCoords)
+            {
+                if (enemyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == enemyCruiser.size)
+                    {
+                        Debug.Log("Enemy Cruiser Destroyed!");
+                        enemyCruiser.intact = false;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Destroyer")
+        {
+            foreach (var coord in enemyDestroyer.gameObject.GetComponent<Destroyer>().shipCoords)
+            {
+                if (enemyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == enemyDestroyer.size)
+                    {
+                        Debug.Log("Enemy Destroyer Destroyed!");
+                        enemyDestroyer.intact = false;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Submarine")
+        {
+            foreach (var coord in enemySubmarine.gameObject.GetComponent<Submarine>().shipCoords)
+            {
+                if (enemyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == enemySubmarine.size)
+                    {
+                        Debug.Log("Enemy Submarine Destroyed!");
+                        enemySubmarine.intact = false;
+                    }
+                }
+            }
+            counter = 0;
+        }
+
+        checkEnemyDefeated();
     }
-    
+
+    public void checkEnemyDefeated()
+    {
+        if (!(enemyBattleship.intact || enemyCarrier.intact || enemyCruiser.intact || enemyDestroyer.intact || enemySubmarine.intact))
+        {
+            Debug.Log("You are the winner!");
+        }
+    }
 }

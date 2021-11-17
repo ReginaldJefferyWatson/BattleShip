@@ -5,7 +5,7 @@ using UnityEngine;
 public class Submarine : MonoBehaviour
 {
     [SerializeField] private GameObject highlight;
-    private bool intact;
+    public bool intact = true;
     public int size;
     public List<(int, int)> shipCoords = new List<(int, int)>();
     private List<bool> hit;

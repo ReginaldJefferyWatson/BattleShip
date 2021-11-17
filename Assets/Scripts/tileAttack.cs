@@ -20,7 +20,8 @@ public class tileAttack : MonoBehaviour
                 GridManager.GetComponent<GridManager>().enemyHitSpaces.Add(((int) this.gameObject.transform.position.x, (int)this.gameObject.transform.position.y - GridManager.GetComponent<GridManager>().enemyTileY));
 
                 //Check to see if any ships were destroyed by the move
-                GridManager.GetComponent<GridManager>().checkDestroyedEnemy();
+                GridManager.GetComponent<GridManager>().checkDestroyedEnemy(this.gameObject.GetComponent<Tile>().occupierGameStart.name);
+
             }
             else
             {

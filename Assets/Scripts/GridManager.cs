@@ -21,6 +21,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject invalidPlacementButton;
     [SerializeField] private GameObject enemyHitButton;
     private float enemyHitButtonTime = 3f;
+    [SerializeField] private GameObject enemyDestroyedButton;
+    private float enemyDestroyedButtonTime = 3f;
     [SerializeField] private GameObject enemyMissButton;
     private float enemyMissButtonTime = 3f;
     [SerializeField] private GameObject enemyTurnButton;
@@ -28,6 +30,8 @@ public class GridManager : MonoBehaviour
     //These lower ones mean that our ships were missed
     [SerializeField] private GameObject friendlyHitButton;
     private float friendlyHitButtonTime = 3f;
+    [SerializeField] private GameObject friendlyDestroyedButton;
+    private float friendlyDestroyedButtonTime = 3f;
     [SerializeField] private GameObject friendlyMissButton;
     private float friendlyMissButtonTime = 3f;
     [SerializeField] private GameObject friendlyTurnButton;
@@ -101,6 +105,15 @@ public class GridManager : MonoBehaviour
             enemyTurnDelay();
         }
 
+        //Enable "Enemy Destroyed" Button
+        if (enemyDestroyedButton.activeSelf && (Time.time >= disappearTime))
+        {
+            enemyDestroyedButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            enemyTurnDelay();
+        }
+
         //Enable "Enemy Miss" Button
         if (enemyMissButton.activeSelf && (Time.time >= disappearTime))
         {
@@ -125,6 +138,15 @@ public class GridManager : MonoBehaviour
         if (friendlyHitButton.activeSelf && (Time.time >= disappearTime))
         {
             friendlyHitButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            friendlyTurnDelay();
+        }
+
+        //Enable "Friendly Destroyed" Button
+        if (friendlyDestroyedButton.activeSelf && (Time.time >= disappearTime))
+        {
+            friendlyDestroyedButton.SetActive(false);
 
             //Call for "Enemy Turn" button
             friendlyTurnDelay();
@@ -466,6 +488,12 @@ public class GridManager : MonoBehaviour
         disappearTime = Time.time + enemyHitButtonTime;
     }
 
+    public void enemyDestroyedDelay()
+    {
+        enemyDestroyedButton.SetActive(true);
+        disappearTime = Time.time + enemyDestroyedButtonTime;
+    }
+
     public void enemyMissDelay()
     {
         enemyMissButton.SetActive(true);
@@ -482,6 +510,12 @@ public class GridManager : MonoBehaviour
     {
         friendlyHitButton.SetActive(true);
         disappearTime = Time.time + friendlyHitButtonTime;
+    }
+
+    public void friendlyDestroyedDelay()
+    {
+        friendlyDestroyedButton.SetActive(true);
+        disappearTime = Time.time + friendlyDestroyedButtonTime;
     }
 
     public void friendlyMissDelay()
@@ -507,8 +541,10 @@ public class GridManager : MonoBehaviour
 
 
     
-    public void checkDestroyedEnemy(string shipName)
+    public bool checkDestroyedEnemy(string shipName)
     {
+        bool destroyed = false;
+
         //For checking if ship has been totally destroyed
         int counter = 0;
 
@@ -524,6 +560,7 @@ public class GridManager : MonoBehaviour
                     {
                         Debug.Log("Enemy Battleship Destroyed!");
                         enemyBattleship.intact = false;
+                        destroyed = true;
                     }
                 }
             }
@@ -541,6 +578,7 @@ public class GridManager : MonoBehaviour
                     {
                         Debug.Log("Enemy Carrier Destroyed!");
                         enemyCarrier.intact = false;
+                        destroyed = true;
                     }
                 }
             }
@@ -558,6 +596,7 @@ public class GridManager : MonoBehaviour
                     {
                         Debug.Log("Enemy Cruiser Destroyed!");
                         enemyCruiser.intact = false;
+                        destroyed = true;
                     }
                 }
             }
@@ -575,6 +614,7 @@ public class GridManager : MonoBehaviour
                     {
                         Debug.Log("Enemy Destroyer Destroyed!");
                         enemyDestroyer.intact = false;
+                        destroyed = true;
                     }
                 }
             }
@@ -592,6 +632,7 @@ public class GridManager : MonoBehaviour
                     {
                         Debug.Log("Enemy Submarine Destroyed!");
                         enemySubmarine.intact = false;
+                        destroyed = true;
                     }
                 }
             }
@@ -599,6 +640,8 @@ public class GridManager : MonoBehaviour
         }
 
         checkEnemyDefeated();
+
+        return destroyed;
     }
 
     public void checkEnemyDefeated()

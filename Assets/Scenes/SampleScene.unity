@@ -3016,7 +3016,7 @@ MonoBehaviour:
   enemyMissButton: {fileID: 650099628}
   enemyTurnButton: {fileID: 1201191936}
   friendlyHitButton: {fileID: 1993562137}
-  friendlyDestroyedButton: {fileID: 0}
+  friendlyDestroyedButton: {fileID: 1755671534}
   friendlyMissButton: {fileID: 1415592801}
   friendlyTurnButton: {fileID: 1111101793}
   ourTileList: []

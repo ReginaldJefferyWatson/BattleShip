@@ -19,8 +19,23 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject cheatButton;
     [SerializeField] private GameObject invalidPlacementButton;
+    [SerializeField] private GameObject enemyHitButton;
+    private float enemyHitButtonTime = 3f;
+    [SerializeField] private GameObject enemyMissButton;
+    private float enemyMissButtonTime = 3f;
+    [SerializeField] private GameObject enemyTurnButton;
+    private float enemyTurnButtonTime = 3f;
+    //These lower ones mean that our ships were missed
+    [SerializeField] private GameObject friendlyHitButton;
+    private float friendlyHitButtonTime = 3f;
+    [SerializeField] private GameObject friendlyMissButton;
+    private float friendlyMissButtonTime = 3f;
+    [SerializeField] private GameObject friendlyTurnButton;
+    private float friendlyTurnButtonTime = 3f;
+    private float disappearTime;
 
     public List<Tile> ourTileList;
+    public List<Tile> ourTileListAttackTrack;
     public Battleship ourBattleship;
     public Carrier ourCarrier;
     public Cruiser ourCruiser;
@@ -75,6 +90,62 @@ public class GridManager : MonoBehaviour
                 checkEnemyValid();
             }
             collisionSwitch = !collisionSwitch;
+        }
+
+        //Enable "Enemy Hit" Button
+        if (enemyHitButton.activeSelf && (Time.time >= disappearTime))
+        {
+            enemyHitButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            enemyTurnDelay();
+        }
+
+        //Enable "Enemy Miss" Button
+        if (enemyMissButton.activeSelf && (Time.time >= disappearTime))
+        {
+            enemyMissButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            enemyTurnDelay();
+        }
+
+        //Enable "Enemy Turn" Button
+        if (enemyTurnButton.activeSelf && (Time.time >= disappearTime))
+        {
+            enemyTurnButton.SetActive(false);
+
+            //Put the enemy attack function here
+            enemyAttack();
+        }
+
+
+
+        //Enable "Friendly Hit" Button
+        if (friendlyHitButton.activeSelf && (Time.time >= disappearTime))
+        {
+            friendlyHitButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            friendlyTurnDelay();
+        }
+
+        //Enable "Friendly Miss" Button
+        if (friendlyMissButton.activeSelf && (Time.time >= disappearTime))
+        {
+            friendlyMissButton.SetActive(false);
+
+            //Call for "Enemy Turn" button
+            friendlyTurnDelay();
+        }
+
+        //Enable "Friendly Turn" Button
+        if (friendlyTurnButton.activeSelf && (Time.time >= disappearTime))
+        {
+            friendlyTurnButton.SetActive(false);
+
+            //Put the enemy attack function here
+            enableEnemyTiles();
         }
     }
 
@@ -309,6 +380,13 @@ public class GridManager : MonoBehaviour
             startButton.SetActive(false);
             cheatButton.SetActive(true);
 
+            //Make ships unmovable
+            ourBattleship.gameObject.GetComponent<box>().enabled = false;
+            ourCarrier.gameObject.GetComponent<box>().enabled = false;
+            ourCruiser.gameObject.GetComponent<box>().enabled = false;
+            ourDestroyer.gameObject.GetComponent<box>().enabled = false;
+            ourSubmarine.gameObject.GetComponent<box>().enabled = false;
+
             //Record actual final positions of ships
             foreach (Tile ourTile in ourTileList)
             {
@@ -317,6 +395,9 @@ public class GridManager : MonoBehaviour
                     ourTile.occupiedGameStart = true;
                 }
             }
+
+            //Transfer these tiles to enemy attack list
+            ourTileListAttackTrack = ourTileList;
         }
 
     }
@@ -379,12 +460,41 @@ public class GridManager : MonoBehaviour
         invalidPlacementButton.SetActive(false);
     }
 
-    /*
-    IEnumerator timeDelayWelcome()
+    public void enemyHitDelay()
     {
-        yield return new WaitForSeconds(3);
+        enemyHitButton.SetActive(true);
+        disappearTime = Time.time + enemyHitButtonTime;
     }
-    */
+
+    public void enemyMissDelay()
+    {
+        enemyMissButton.SetActive(true);
+        disappearTime = Time.time + enemyMissButtonTime;
+    }
+
+    public void enemyTurnDelay()
+    {
+        enemyTurnButton.SetActive(true);
+        disappearTime = Time.time + enemyTurnButtonTime;
+    }
+
+    public void friendlyHitDelay()
+    {
+        friendlyHitButton.SetActive(true);
+        disappearTime = Time.time + friendlyHitButtonTime;
+    }
+
+    public void friendlyMissDelay()
+    {
+        friendlyMissButton.SetActive(true);
+        disappearTime = Time.time + friendlyMissButtonTime;
+    }
+
+    public void friendlyTurnDelay()
+    {
+        friendlyTurnButton.SetActive(true);
+        disappearTime = Time.time + friendlyTurnButtonTime;
+    }
 
     public void cheatButtonPress()
     {
@@ -496,6 +606,44 @@ public class GridManager : MonoBehaviour
         if (!(enemyBattleship.intact || enemyCarrier.intact || enemyCruiser.intact || enemyDestroyer.intact || enemySubmarine.intact))
         {
             Debug.Log("You are the winner!");
+        }
+    }
+
+    public void disableEnemyTiles()
+    {
+        foreach (Tile ourTile in ourEnemyTileList)
+        {
+            ourTile.gameObject.GetComponent<tileAttack>().attackable = false;
+        }
+    }
+
+    public void enableEnemyTiles()
+    {
+        foreach (Tile ourTile in ourEnemyTileList)
+        {
+            ourTile.gameObject.GetComponent<tileAttack>().attackable = true;
+        }
+    }
+
+    public void enemyAttack()
+    {
+        Tile ourTile = ourTileList[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        ourTile.gameObject.GetComponent<Tile>().attacked = true;
+
+        Debug.Log(ourTile.name);
+
+        if (ourTile.gameObject.GetComponent<Tile>().occupiedGameStart)
+        {
+            Debug.Log("Hit our ship!");
+            friendlyHitDelay();
+
+            //Add ship to list of hit ships
+        }
+        else
+        {
+            Debug.Log("Miss our ship!");
+            friendlyMissDelay();
+
         }
     }
 }

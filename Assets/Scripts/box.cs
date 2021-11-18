@@ -9,10 +9,11 @@ public class box : MonoBehaviour
     private float startPosY;
     private bool isBeingHeld = false;
     public float rotZ = 0;
+    //public bool movable = true;
 
     void Update()
     {
-        if(isBeingHeld == true)
+        if (isBeingHeld == true)
         {
             Vector3 mousePos;
             mousePos = Input.mousePosition;

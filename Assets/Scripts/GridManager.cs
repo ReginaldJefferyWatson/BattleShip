@@ -18,6 +18,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject cheatButton;
+    [SerializeField] private GameObject skipButton;
     [SerializeField] private GameObject invalidPlacementButton;
     [SerializeField] private GameObject enemyHitButton;
     private float enemyHitButtonTime = 3f;
@@ -27,7 +28,7 @@ public class GridManager : MonoBehaviour
     private float enemyMissButtonTime = 3f;
     [SerializeField] private GameObject enemyTurnButton;
     private float enemyTurnButtonTime = 3f;
-    //These lower ones mean that our ships were missed
+    //These lower ones are in regard to the player's ships
     [SerializeField] private GameObject friendlyHitButton;
     private float friendlyHitButtonTime = 3f;
     [SerializeField] private GameObject friendlyDestroyedButton;
@@ -40,6 +41,7 @@ public class GridManager : MonoBehaviour
 
     public List<Tile> ourTileList;
     public List<Tile> ourTileListAttackTrack;
+    public List<(int, int)> friendlyHitSpaces = new List<(int, int)>();
     public Battleship ourBattleship;
     public Carrier ourCarrier;
     public Cruiser ourCruiser;
@@ -400,6 +402,7 @@ public class GridManager : MonoBehaviour
             cam.GetComponent<Camera>().orthographicSize = 14;
             adjustCamera();
             startButton.SetActive(false);
+            skipButton.SetActive(true);
             cheatButton.SetActive(true);
 
             //Make ships unmovable
@@ -415,6 +418,7 @@ public class GridManager : MonoBehaviour
                 if (ourTile.occupied == true)
                 {
                     ourTile.occupiedGameStart = true;
+                    ourTile.occupierGameStart = ourTile.occupier;
                 }
             }
 
@@ -539,6 +543,11 @@ public class GridManager : MonoBehaviour
         enemySubmarine.gameObject.SetActive(!enemySubmarine.gameObject.activeSelf);
     }
 
+    public void skipButtonPress()
+    {
+        disappearTime = Time.time;
+    }
+
 
     
     public bool checkDestroyedEnemy(string shipName)
@@ -644,11 +653,122 @@ public class GridManager : MonoBehaviour
         return destroyed;
     }
 
+    public bool checkDestroyedFriendly(string shipName)
+    {
+        bool destroyed = false;
+
+        //For checking if ship has been totally destroyed
+        int counter = 0;
+
+        if (shipName == "Battleship")
+        {
+            foreach (var coord in ourBattleship.gameObject.GetComponent<Battleship>().shipCoords)
+            {
+                if (friendlyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == ourBattleship.size)
+                    {
+                        Debug.Log("Our Battleship Destroyed!");
+                        ourBattleship.intact = false;
+                        destroyed = true;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Carrier")
+        {
+            foreach (var coord in ourCarrier.gameObject.GetComponent<Carrier>().shipCoords)
+            {
+                if (friendlyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == ourCarrier.size)
+                    {
+                        Debug.Log("Our Carrier Destroyed!");
+                        ourCarrier.intact = false;
+                        destroyed = true;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Cruiser")
+        {
+            foreach (var coord in ourCruiser.gameObject.GetComponent<Cruiser>().shipCoords)
+            {
+                if (friendlyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == ourCruiser.size)
+                    {
+                        Debug.Log("Our Cruiser Destroyed!");
+                        ourCruiser.intact = false;
+                        destroyed = true;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Destroyer")
+        {
+            foreach (var coord in ourDestroyer.gameObject.GetComponent<Destroyer>().shipCoords)
+            {
+                if (friendlyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == ourDestroyer.size)
+                    {
+                        Debug.Log("Our Destroyer Destroyed!");
+                        ourDestroyer.intact = false;
+                        destroyed = true;
+                    }
+                }
+            }
+            counter = 0;
+        }
+        else if (shipName == "Submarine")
+        {
+            foreach (var coord in ourSubmarine.gameObject.GetComponent<Submarine>().shipCoords)
+            {
+                if (friendlyHitSpaces.Contains(coord))
+                {
+                    counter++;
+
+                    if (counter == ourSubmarine.size)
+                    {
+                        Debug.Log("Our Submarine Destroyed!");
+                        ourSubmarine.intact = false;
+                        destroyed = true;
+                    }
+                }
+            }
+            counter = 0;
+        }
+
+        checkFriendlyDefeated();
+
+        return destroyed;
+    }
+
     public void checkEnemyDefeated()
     {
         if (!(enemyBattleship.intact || enemyCarrier.intact || enemyCruiser.intact || enemyDestroyer.intact || enemySubmarine.intact))
         {
-            Debug.Log("You are the winner!");
+            Debug.Log("You are the winner :)");
+        }
+    }
+
+    public void checkFriendlyDefeated()
+    {
+        if (!(ourBattleship.intact || ourCarrier.intact || ourCruiser.intact || ourDestroyer.intact || ourSubmarine.intact))
+        {
+            Debug.Log("You are the loser :(");
         }
     }
 
@@ -670,7 +790,7 @@ public class GridManager : MonoBehaviour
 
     public void enemyAttack()
     {
-        Tile ourTile = ourTileList[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        Tile ourTile = ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
         ourTile.gameObject.GetComponent<Tile>().attacked = true;
 
         Debug.Log(ourTile.name);
@@ -678,15 +798,29 @@ public class GridManager : MonoBehaviour
         if (ourTile.gameObject.GetComponent<Tile>().occupiedGameStart)
         {
             Debug.Log("Hit our ship!");
-            friendlyHitDelay();
+            ourTile.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
             //Add ship to list of hit ships
+            friendlyHitSpaces.Add(((int)ourTile.gameObject.transform.position.x, (int)ourTile.gameObject.transform.position.y));
+
+            if (checkDestroyedFriendly(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name))
+            {
+                friendlyDestroyedDelay();
+            }
+            else
+            {
+                friendlyHitDelay();
+            }
         }
         else
         {
             Debug.Log("Miss our ship!");
+            ourTile.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
             friendlyMissDelay();
 
         }
+
+        //Remove attacked tile from total list
+        ourTileListAttackTrack.Remove(ourTile);
     }
 }

@@ -510,7 +510,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -886,7 +887,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -1020,7 +1022,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -1154,7 +1157,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -1675,7 +1679,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -2064,7 +2069,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -2465,7 +2471,8 @@ MonoBehaviour:
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15, type: 2}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 1d26050f4be87ed47b2d734de7aefe15,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
@@ -2622,14 +2629,20 @@ MonoBehaviour:
   width: 10
   height: 10
   distance: 2
-  tilePrefab: {fileID: 7745901144918923909, guid: 8772eb030f2f2cc4b8bff69a766856dc, type: 3}
-  enemyTilePrefab: {fileID: 4198005299122934364, guid: 6ed4737a2cef3484aa98199c817e79b5, type: 3}
+  tilePrefab: {fileID: 7745901144918923909, guid: 8772eb030f2f2cc4b8bff69a766856dc,
+    type: 3}
+  enemyTilePrefab: {fileID: 4198005299122934364, guid: 6ed4737a2cef3484aa98199c817e79b5,
+    type: 3}
   cam: {fileID: 519420032}
   subPrefab: {fileID: 26109724696968960, guid: c2b2b904d6e984e4fb59a83c512023b5, type: 3}
-  destroyerPrefab: {fileID: -8420061058308133469, guid: 7913fee7932155b49910a3ddd90363ab, type: 3}
-  cruiserPrefab: {fileID: -5458268935397410586, guid: 09ed3a23d4db6e24780f487d92c20810, type: 3}
-  carrierPrefab: {fileID: -4701827489056981878, guid: 8aec006efbaf8b44f8e4fe4677287fb6, type: 3}
-  battleshipPrefab: {fileID: 8770493879178529924, guid: 5e3506e7d51b3654fa563fbf08d686c1, type: 3}
+  destroyerPrefab: {fileID: -8420061058308133469, guid: 7913fee7932155b49910a3ddd90363ab,
+    type: 3}
+  cruiserPrefab: {fileID: -5458268935397410586, guid: 09ed3a23d4db6e24780f487d92c20810,
+    type: 3}
+  carrierPrefab: {fileID: -4701827489056981878, guid: 8aec006efbaf8b44f8e4fe4677287fb6,
+    type: 3}
+  battleshipPrefab: {fileID: 8770493879178529924, guid: 5e3506e7d51b3654fa563fbf08d686c1,
+    type: 3}
   startButton: {fileID: 1247547882}
   cheatButton: {fileID: 1790783926}
   invalidPlacementButton: {fileID: 163232615}

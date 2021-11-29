@@ -147,6 +147,29 @@ public class GridManager : MonoBehaviour
             //Put the enemy attack function here
             enableEnemyTiles();
         }
+<<<<<<< Updated upstream
+=======
+
+        if (Input.GetKeyDown("escape"))
+        {
+            if (!paused)
+            {
+                Debug.Log("PAUSED");
+                paused = true;
+                Time.timeScale = 0;
+                pauseBG.SetActive(true);
+                disableEnemyTiles();
+            }
+            else
+            {
+                Debug.Log("UNPAUSED");
+                paused = false;
+                Time.timeScale = 1;
+                pauseBG.SetActive(false);
+                enableEnemyTiles();
+            }
+        }
+>>>>>>> Stashed changes
     }
 
     void GenerateGrid()
@@ -625,9 +648,17 @@ public class GridManager : MonoBehaviour
         }
     }
 
+
+    public Tile mainHitTile;
+    public Tile prevHitTile;
+    public bool firstAttack = true;
     public void enemyAttack()
     {
+<<<<<<< Updated upstream
         Tile ourTile = ourTileList[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+=======
+        Tile ourTile = chooseTileAttack();
+>>>>>>> Stashed changes
         ourTile.gameObject.GetComponent<Tile>().attacked = true;
 
         Debug.Log(ourTile.name);
@@ -637,7 +668,30 @@ public class GridManager : MonoBehaviour
             Debug.Log("Hit our ship!");
             friendlyHitDelay();
 
+            prevHitTile = ourTile;
+            if (!mainHitTile)
+            {
+                mainHitTile = ourTile;
+                //Remove later when ship is destroyed
+            }
+
             //Add ship to list of hit ships
+<<<<<<< Updated upstream
+=======
+            friendlyHitSpaces.Add(((int)ourTile.gameObject.transform.position.x, (int)ourTile.gameObject.transform.position.y));
+
+            if (checkDestroyedFriendly(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name))
+            {
+                friendlyDestroyedDelay();
+                mainHitTile = null;
+                prevHitTile = null;
+                firstAttack = true;
+            }
+            else
+            {
+                friendlyHitDelay();
+            }
+>>>>>>> Stashed changes
         }
         else
         {
@@ -645,5 +699,37 @@ public class GridManager : MonoBehaviour
             friendlyMissDelay();
 
         }
+<<<<<<< Updated upstream
+=======
+
+        //Remove attacked tile from total list
+        ourTileListAttackTrack.Remove(ourTile);
+    }
+
+    public Tile chooseTileAttack()
+    {
+        if (!mainHitTile)
+        {
+            return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        }
+
+        if (firstAttack)
+        {
+            firstAttack = false;
+
+            //0-->Up, 1-->Right, 2-->Down, 3-->Left
+            int attackDir = Random.Range(0, 4);
+
+            if(attackDir == 0)
+            {
+
+            }
+        }
+    }
+
+    public void quitGame()
+    {
+        SceneManager.LoadScene(0);
+>>>>>>> Stashed changes
     }
 }

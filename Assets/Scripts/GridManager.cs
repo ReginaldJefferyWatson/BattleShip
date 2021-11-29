@@ -88,7 +88,7 @@ public class GridManager : MonoBehaviour
     //will loop this until proper positions are assigned
     private void Update()
     {
-        if(!properPosition)
+        if (!properPosition)
         {
             if (!collisionSwitch)
             {
@@ -184,6 +184,7 @@ public class GridManager : MonoBehaviour
                 paused = true;
                 Time.timeScale = 0;
                 pauseBG.SetActive(true);
+                disableEnemyTiles();
             }
             else
             {
@@ -191,15 +192,17 @@ public class GridManager : MonoBehaviour
                 paused = false;
                 Time.timeScale = 1;
                 pauseBG.SetActive(false);
+                //Need to fix this so it only happens when it's our turn during pause
+                enableEnemyTiles();
             }
         }
     }
 
     void GenerateGrid()
     {
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < height; y++)
+            for (int y = 0; y < height; y++)
             {
                 var spawnedTile = Instantiate(tilePrefab, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
@@ -248,8 +251,8 @@ public class GridManager : MonoBehaviour
         ourSubmarine = sub_Tile;
     }
 
-    void GenerateEnemyShips() 
-    { 
+    void GenerateEnemyShips()
+    {
         //Enemy Ships
         var enemy_Carrier_Tile = Instantiate(carrierPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
         enemy_Carrier_Tile.name = $"Carrier";
@@ -295,7 +298,7 @@ public class GridManager : MonoBehaviour
         enemy_Sub_Tile.name = $"Submarine";
         enemySubmarine = enemy_Sub_Tile;
     }
-    
+
     public void adjustCamera()
     {
         cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height + (distance / 2f), -10);
@@ -303,16 +306,16 @@ public class GridManager : MonoBehaviour
 
     public void addCoords()
     {
-        foreach(Tile ourTile in ourTileList)
+        foreach (Tile ourTile in ourTileList)
         {
             //Only execute for occupied tiles
-            if(ourTile.occupier)
+            if (ourTile.occupier)
             {
-                if(ourTile.occupier.name == "Battleship")
+                if (ourTile.occupier.name == "Battleship")
                 {
                     ourTile.occupier.GetComponent<Battleship>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
                 }
-                else if(ourTile.occupier.name == "Carrier")
+                else if (ourTile.occupier.name == "Carrier")
                 {
                     ourTile.occupier.GetComponent<Carrier>().shipCoords.Add(((int)ourTile.transform.position.x, (int)ourTile.transform.position.y));
                 }
@@ -571,7 +574,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    
+
     public bool checkDestroyedEnemy(string shipName)
     {
         bool destroyed = false;
@@ -579,7 +582,7 @@ public class GridManager : MonoBehaviour
         //For checking if ship has been totally destroyed
         int counter = 0;
 
-        if(shipName == "Battleship")
+        if (shipName == "Battleship")
         {
             foreach (var coord in enemyBattleship.gameObject.GetComponent<Battleship>().shipCoords)
             {
@@ -810,9 +813,13 @@ public class GridManager : MonoBehaviour
         }
     }
 
+
+    public Tile mainHitTile;
+    public Tile prevHitTile;
+    public bool firstAttack = true;
     public void enemyAttack()
     {
-        Tile ourTile = ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        Tile ourTile = chooseTileAttack();
         ourTile.gameObject.GetComponent<Tile>().attacked = true;
 
         Debug.Log(ourTile.name);
@@ -822,12 +829,22 @@ public class GridManager : MonoBehaviour
             Debug.Log("Hit our ship!");
             ourTile.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
+            prevHitTile = ourTile;
+            if (!mainHitTile)
+            {
+                mainHitTile = ourTile;
+                //Remove later when ship is destroyed
+            }
+
             //Add ship to list of hit ships
             friendlyHitSpaces.Add(((int)ourTile.gameObject.transform.position.x, (int)ourTile.gameObject.transform.position.y));
 
             if (checkDestroyedFriendly(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name))
             {
                 friendlyDestroyedDelay();
+                mainHitTile = null;
+                prevHitTile = null;
+                firstAttack = true;
             }
             else
             {
@@ -844,6 +861,29 @@ public class GridManager : MonoBehaviour
 
         //Remove attacked tile from total list
         ourTileListAttackTrack.Remove(ourTile);
+    }
+
+    public Tile chooseTileAttack()
+    {
+        if (!mainHitTile)
+        {
+            return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        }
+
+        if (firstAttack)
+        {
+            firstAttack = false;
+
+            //0-->Up, 1-->Right, 2-->Down, 3-->Left
+            int attackDir = Random.Range(0, 4);
+
+            if (attackDir == 0)
+            {
+
+            }
+        }
+
+        return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
     }
 
     public void quitGame()

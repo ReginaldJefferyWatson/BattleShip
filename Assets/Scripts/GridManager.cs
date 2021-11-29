@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GridManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Tile tilePrefab;
     [SerializeField] private Tile enemyTilePrefab;
     [SerializeField] private Transform cam;
+
+    private bool paused = false;
+    [SerializeField] private GameObject pauseBG;
 
 
     [SerializeField] private Submarine subPrefab;
@@ -170,6 +174,24 @@ public class GridManager : MonoBehaviour
 
             //Put the enemy attack function here
             enableEnemyTiles();
+        }
+
+        if (Input.GetKeyDown("escape"))
+        {
+            if (!paused)
+            {
+                Debug.Log("PAUSED");
+                paused = true;
+                Time.timeScale = 0;
+                pauseBG.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("UNPAUSED");
+                paused = false;
+                Time.timeScale = 1;
+                pauseBG.SetActive(false);
+            }
         }
     }
 
@@ -822,5 +844,10 @@ public class GridManager : MonoBehaviour
 
         //Remove attacked tile from total list
         ourTileListAttackTrack.Remove(ourTile);
+    }
+
+    public void quitGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

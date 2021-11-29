@@ -302,8 +302,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286151035
-  m_fontColor: {r: 0.48235294, g: 0.4745098, b: 0.4745098, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -3736,7 +3736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1509434, g: 0.12887149, b: 0.12887149, a: 1}
+  m_Color: {r: 0.1509434, g: 0.12887149, b: 0.12887149, a: 0.60784316}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3897,6 +3897,10 @@ MonoBehaviour:
   properPosition: 0
   enemyTileX: 0
   enemyTileY: 12
+  enemyTurn: 0
+  mainHitTile: {fileID: 0}
+  prevHitTile: {fileID: 0}
+  firstAttack: 1
 --- !u!4 &1899569518
 Transform:
   m_ObjectHideFlags: 0
@@ -4202,7 +4206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00000095367, y: 0}
+  m_AnchoredPosition: {x: 0.00000095367, y: -82}
   m_SizeDelta: {x: 138.0261, y: 63.6845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2137048452

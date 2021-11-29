@@ -46,6 +46,9 @@ public class tileAttack : MonoBehaviour
 
                 this.gameObject.GetComponent<Tile>().attacked = true;
 
+                //Change turn
+                //GridManager.gameObject.GetComponent<GridManager>().enemyTurn = true;
+
                 //Now, move to the enemy's turn to attack
                 //Disable enemy tile click script
                 GridManager.gameObject.GetComponent<GridManager>().disableEnemyTiles();

@@ -77,6 +77,8 @@ public class GridManager : MonoBehaviour
     float ourSubmarineX = 12f;
     float ourSubmarineY = 1f;
 
+    public bool enemyTurn = false;
+
     void Start()
     {
         GenerateGrid();
@@ -174,6 +176,9 @@ public class GridManager : MonoBehaviour
 
             //Put the enemy attack function here
             enableEnemyTiles();
+
+            //Change turns
+            enemyTurn = false;
         }
 
         if (Input.GetKeyDown("escape"))
@@ -192,8 +197,11 @@ public class GridManager : MonoBehaviour
                 paused = false;
                 Time.timeScale = 1;
                 pauseBG.SetActive(false);
-                //Need to fix this so it only happens when it's our turn during pause
-                enableEnemyTiles();
+                if (!enemyTurn)
+                {
+                    enableEnemyTiles();
+                }
+
             }
         }
     }
@@ -256,12 +264,14 @@ public class GridManager : MonoBehaviour
         //Enemy Ships
         var enemy_Carrier_Tile = Instantiate(carrierPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
         enemy_Carrier_Tile.name = $"Carrier";
+        enemy_Carrier_Tile.GetComponent<SpriteRenderer>().enabled = false;
         enemyCarrier = enemy_Carrier_Tile;
 
         int rotateVal = rotations[Random.Range(0, 3)];
         int xVal = Random.Range(0, 9);
         int yVal = Random.Range(12, 21);
         var enemy_Battleship_Tile = Instantiate(battleshipPrefab, new Vector3(xVal, yVal), Quaternion.Euler(0, 0, rotateVal));
+        enemy_Battleship_Tile.GetComponent<SpriteRenderer>().enabled = false;
         //If object is rotated, adjust for weird angles
         if (rotateVal == -90 || rotateVal == 90)
         {
@@ -276,12 +286,14 @@ public class GridManager : MonoBehaviour
 
         var enemy_Cruiser_Tile = Instantiate(cruiserPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
         enemy_Cruiser_Tile.name = $"Cruiser";
+        enemy_Cruiser_Tile.GetComponent<SpriteRenderer>().enabled = false;
         enemyCruiser = enemy_Cruiser_Tile;
 
         rotateVal = rotations[Random.Range(0, 3)];
         xVal = Random.Range(0, 9);
         yVal = Random.Range(12, 21);
         var enemy_Destroyer_Tile = Instantiate(destroyerPrefab, new Vector3(xVal, yVal), Quaternion.Euler(0, 0, rotateVal));
+        enemy_Destroyer_Tile.GetComponent<SpriteRenderer>().enabled = false;
         //Same rotate logic as above
         if (rotateVal == -90 || rotateVal == 90)
         {
@@ -296,6 +308,7 @@ public class GridManager : MonoBehaviour
 
         var enemy_Sub_Tile = Instantiate(subPrefab, new Vector3(Random.Range(0, 9), Random.Range(12, 21)), Quaternion.Euler(0, 0, rotations[Random.Range(0, 3)]));
         enemy_Sub_Tile.name = $"Submarine";
+        enemy_Sub_Tile.GetComponent<SpriteRenderer>().enabled = false;
         enemySubmarine = enemy_Sub_Tile;
     }
 
@@ -492,6 +505,13 @@ public class GridManager : MonoBehaviour
             enemyCruiser.gameObject.SetActive(false);
             enemyDestroyer.gameObject.SetActive(false);
             enemySubmarine.gameObject.SetActive(false);
+
+            //Reactivate sprite visibility
+            enemyCarrier.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            enemyBattleship.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            enemyCruiser.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            enemyDestroyer.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            enemySubmarine.gameObject.GetComponent<SpriteRenderer>().enabled = true;
 
             //Disallow drag and drop for the enemy ships
             enemyBattleship.gameObject.GetComponent<box>().enabled = false;
@@ -859,6 +879,9 @@ public class GridManager : MonoBehaviour
 
         }
 
+        //Change turn
+        enemyTurn = false;
+
         //Remove attacked tile from total list
         ourTileListAttackTrack.Remove(ourTile);
     }
@@ -888,6 +911,9 @@ public class GridManager : MonoBehaviour
 
     public void quitGame()
     {
+        //Reset timescale
+        Time.timeScale = 1;
+
         SceneManager.LoadScene(0);
     }
 }

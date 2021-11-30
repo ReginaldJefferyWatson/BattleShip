@@ -16,4 +16,11 @@ public class mainMenu : MonoBehaviour
         Debug.Log("QUIT");
         Application.Quit();
     }
+
+    public void playAgain()
+    {
+        Debug.Log("Playing Again!");
+
+        SceneManager.LoadScene(0);
+    }
 }

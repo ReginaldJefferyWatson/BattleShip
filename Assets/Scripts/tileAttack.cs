@@ -5,6 +5,7 @@ using UnityEngine;
 public class tileAttack : MonoBehaviour
 {
     public bool attackable = true;
+    public bool recentlyDestroyed = false;
 
     public GameObject GridManager;
     private void OnMouseDown()
@@ -19,13 +20,19 @@ public class tileAttack : MonoBehaviour
                     Debug.Log("HIT");
                     this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
-                    GridManager.gameObject.GetComponent<GridManager>().enemyHitDelay();
-
                     //Add hit object to hit list
                     GridManager.GetComponent<GridManager>().enemyHitSpaces.Add(((int)this.gameObject.transform.position.x, (int)this.gameObject.transform.position.y - GridManager.GetComponent<GridManager>().enemyTileY));
 
                     //Check to see if any ships were destroyed by the move
-                    GridManager.GetComponent<GridManager>().checkDestroyedEnemy(this.gameObject.GetComponent<Tile>().occupierGameStart.name);
+                    if (GridManager.GetComponent<GridManager>().checkDestroyedEnemy(this.gameObject.GetComponent<Tile>().occupierGameStart.name))
+                    {
+                        GridManager.gameObject.GetComponent<GridManager>().enemyDestroyedDelay();
+                    }
+                    else
+                    {
+                        //Display hit message
+                        GridManager.gameObject.GetComponent<GridManager>().enemyHitDelay();
+                    }
 
                 }
                 else
@@ -38,6 +45,9 @@ public class tileAttack : MonoBehaviour
                 }
 
                 this.gameObject.GetComponent<Tile>().attacked = true;
+
+                //Change turn
+                //GridManager.gameObject.GetComponent<GridManager>().enemyTurn = true;
 
                 //Now, move to the enemy's turn to attack
                 //Disable enemy tile click script

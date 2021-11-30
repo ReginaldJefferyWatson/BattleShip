@@ -806,6 +806,8 @@ public class GridManager : MonoBehaviour
         if (!(enemyBattleship.intact || enemyCarrier.intact || enemyCruiser.intact || enemyDestroyer.intact || enemySubmarine.intact))
         {
             Debug.Log("You are the winner :)");
+
+            SceneManager.LoadScene(2);
         }
     }
 
@@ -814,6 +816,8 @@ public class GridManager : MonoBehaviour
         if (!(ourBattleship.intact || ourCarrier.intact || ourCruiser.intact || ourDestroyer.intact || ourSubmarine.intact))
         {
             Debug.Log("You are the loser :(");
+
+            SceneManager.LoadScene(3);
         }
     }
 

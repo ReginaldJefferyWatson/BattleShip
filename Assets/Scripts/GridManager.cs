@@ -79,6 +79,11 @@ public class GridManager : MonoBehaviour
 
     public bool enemyTurn = false;
 
+    public AudioSource shipMissed;
+    public AudioSource shipHit;
+    public AudioSource enemyShipDestroyed;
+    public AudioSource friendlyShipDestroyed;
+
     void Start()
     {
         GenerateGrid();
@@ -533,18 +538,24 @@ public class GridManager : MonoBehaviour
 
     public void enemyHitDelay()
     {
+        shipHit.Play();
+
         enemyHitButton.SetActive(true);
         disappearTime = Time.time + enemyHitButtonTime;
     }
 
     public void enemyDestroyedDelay()
     {
+        enemyShipDestroyed.Play();
+
         enemyDestroyedButton.SetActive(true);
         disappearTime = Time.time + enemyDestroyedButtonTime;
     }
 
     public void enemyMissDelay()
     {
+        shipMissed.Play();
+
         enemyMissButton.SetActive(true);
         disappearTime = Time.time + enemyMissButtonTime;
     }
@@ -557,18 +568,24 @@ public class GridManager : MonoBehaviour
 
     public void friendlyHitDelay()
     {
+        shipHit.Play();
+
         friendlyHitButton.SetActive(true);
         disappearTime = Time.time + friendlyHitButtonTime;
     }
 
     public void friendlyDestroyedDelay()
     {
+        friendlyShipDestroyed.Play();
+
         friendlyDestroyedButton.SetActive(true);
         disappearTime = Time.time + friendlyDestroyedButtonTime;
     }
 
     public void friendlyMissDelay()
     {
+        shipMissed.Play();
+
         friendlyMissButton.SetActive(true);
         disappearTime = Time.time + friendlyMissButtonTime;
     }

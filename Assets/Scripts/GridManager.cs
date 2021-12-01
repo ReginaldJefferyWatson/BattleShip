@@ -798,6 +798,13 @@ public class GridManager : MonoBehaviour
 
         checkFriendlyDefeated();
 
+        if (destroyed)
+        {
+            mainHitTile = null;
+            prevHitTile = null;
+            initialAttack = true;
+        }
+
         return destroyed;
     }
 
@@ -838,9 +845,11 @@ public class GridManager : MonoBehaviour
     }
 
 
-    public Tile mainHitTile;
-    public Tile prevHitTile;
-    public bool firstAttack = true;
+    public Tile mainHitTile = null;
+    public Tile prevHitTile = null;
+    //Need to reset this after a ship is destroyed
+    public bool initialAttack = true;
+    public int attackDir;
     public void enemyAttack()
     {
         Tile ourTile = chooseTileAttack();
@@ -853,11 +862,17 @@ public class GridManager : MonoBehaviour
             Debug.Log("Hit our ship!");
             ourTile.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
-            prevHitTile = ourTile;
             if (!mainHitTile)
             {
+                //Debug.Log("HERE");
                 mainHitTile = ourTile;
                 //Remove later when ship is destroyed
+            }
+
+            //Set this as previously hit once one has already been hit
+            if (!initialAttack)
+            {
+                prevHitTile = ourTile;
             }
 
             //Add ship to list of hit ships
@@ -868,7 +883,7 @@ public class GridManager : MonoBehaviour
                 friendlyDestroyedDelay();
                 mainHitTile = null;
                 prevHitTile = null;
-                firstAttack = true;
+                initialAttack = true;
             }
             else
             {
@@ -892,25 +907,183 @@ public class GridManager : MonoBehaviour
 
     public Tile chooseTileAttack()
     {
-        if (!mainHitTile)
-        {
-            return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
-        }
+        //A tile HAS TO be attacked here
+        while (true) {
+            Debug.Log(attackDir);
 
-        if (firstAttack)
-        {
-            firstAttack = false;
-
-            //0-->Up, 1-->Right, 2-->Down, 3-->Left
-            int attackDir = Random.Range(0, 4);
-
-            if (attackDir == 0)
+            if (!mainHitTile)
             {
+                return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count)];
+            }
+
+            if (!prevHitTile)
+            {
+                //0-->Up, 1-->Right, 2-->Down, 3-->Left
+                attackDir = Random.Range(0, 4);
+
+                //Loop until a ship is hit
+                while (true)
+                {
+                    if (attackDir == 0)
+                    {
+                        foreach (Tile ourTile in ourTileListAttackTrack)
+                        {
+                            if ((ourTile.transform.position.x == mainHitTile.transform.position.x) && (ourTile.transform.position.y == mainHitTile.transform.position.y + 1))
+                            {
+                                initialAttack = false;
+                                return ourTile;
+                            }
+                        }
+
+                        //If the tile was not found, attack elsewhere
+                        attackDir = (attackDir + Random.Range(1, 3)) % 4;
+
+                        //This will make it so we don't have to keep track of previously attacked, but missed, spaces
+                    }
+                    else if (attackDir == 1)
+                    {
+                        foreach (Tile ourTile in ourTileListAttackTrack)
+                        {
+                            if ((ourTile.transform.position.x == mainHitTile.transform.position.x + 1) && ((ourTile.transform.position.y) == mainHitTile.transform.position.y))
+                            {
+                                initialAttack = false;
+                                return ourTile;
+                            }
+                        }
+
+                        attackDir = (attackDir + Random.Range(1, 3)) % 4;
+                    }
+                    else if (attackDir == 2)
+                    {
+                        foreach (Tile ourTile in ourTileListAttackTrack)
+                        {
+                            if ((ourTile.transform.position.x == mainHitTile.transform.position.x) && ((ourTile.transform.position.y) == mainHitTile.transform.position.y - 1))
+                            {
+                                initialAttack = false;
+                                return ourTile;
+                            }
+                        }
+
+                        attackDir = (attackDir + Random.Range(1, 3)) % 4;
+                    }
+                    else if (attackDir == 3)
+                    {
+                        foreach (Tile ourTile in ourTileListAttackTrack)
+                        {
+                            if ((ourTile.transform.position.x == mainHitTile.transform.position.x - 1) && ((ourTile.transform.position.y) == mainHitTile.transform.position.y))
+                            {
+                                initialAttack = false;
+                                return ourTile;
+                            }
+                        }
+
+                        attackDir = (attackDir + Random.Range(1, 3)) % 4;
+                    }
+                }
 
             }
-        }
+            //Now, there is a direction to move in
+            else
+            {
+                if (attackDir == 0)
+                {
+                    Debug.Log("0");
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x) && (ourTile.transform.position.y == prevHitTile.transform.position.y + 1))
+                        {
+                            return ourTile;
+                        }
+                    }
 
-        return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+                    //If a tile isn't found in that direction, go the other way
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x) && (ourTile.transform.position.y == mainHitTile.transform.position.y - 1))
+                        {
+                            attackDir = 2;
+                            return ourTile;
+                        }
+                    }
+
+                    //If neither of these work, it's a multiple ship scenario. Remove last hit tile, it's irrelevant
+                    prevHitTile = null;
+                }
+                else if (attackDir == 1)
+                {
+                    Debug.Log("1");
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x + 1) && (ourTile.transform.position.y == prevHitTile.transform.position.y))
+                        {
+                            return ourTile;
+                        }
+                    }
+
+                    //If a tile isn't found in that direction, go the other way
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == mainHitTile.transform.position.x - 1) && (ourTile.transform.position.y == mainHitTile.transform.position.y))
+                        {
+                            attackDir = 3;
+                            return ourTile;
+                        }
+                    }
+
+                    //If neither of these work, it's a multiple ship scenario. Remove last hit tile, it's irrelevant
+                    prevHitTile = null;
+                }
+                else if (attackDir == 2)
+                {
+                    Debug.Log("2");
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x) && (ourTile.transform.position.y == prevHitTile.transform.position.y - 1))
+                        {
+                            return ourTile;
+                        }
+                    }
+
+                    //If a tile isn't found in that direction, go the other way
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x) && (ourTile.transform.position.y == mainHitTile.transform.position.y + 1))
+                        {
+                            attackDir = 0;
+                            return ourTile;
+                        }
+                    }
+
+                    //If neither of these work, it's a multiple ship scenario. Remove last hit tile, it's irrelevant
+                    prevHitTile = null;
+                }
+                else if (attackDir == 3)
+                {
+                    Debug.Log("3");
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == prevHitTile.transform.position.x - 1) && (ourTile.transform.position.y == prevHitTile.transform.position.y))
+                        {
+                            return ourTile;
+                        }
+                    }
+
+                    //If a tile isn't found in that direction, go the other way
+                    foreach (Tile ourTile in ourTileListAttackTrack)
+                    {
+                        if ((ourTile.transform.position.x == mainHitTile.transform.position.x + 1) && (ourTile.transform.position.y == mainHitTile.transform.position.y))
+                        {
+                            attackDir = 1;
+                            return ourTile;
+                        }
+                    }
+
+                    //If neither of these work, it's a multiple ship scenario. Remove last hit tile, it's irrelevant
+                    prevHitTile = null;
+                }
+            }
+            //return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+        }
     }
 
     public void quitGame()

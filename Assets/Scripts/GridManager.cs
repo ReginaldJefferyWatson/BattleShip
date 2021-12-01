@@ -705,6 +705,9 @@ public class GridManager : MonoBehaviour
         //For checking if ship has been totally destroyed
         int counter = 0;
 
+        //Allow for temporary list
+        //tempHitTileList = hitTileList;
+
         if (shipName == "Battleship")
         {
             foreach (var coord in ourBattleship.gameObject.GetComponent<Battleship>().shipCoords)
@@ -800,9 +803,36 @@ public class GridManager : MonoBehaviour
 
         if (destroyed)
         {
-            mainHitTile = null;
             prevHitTile = null;
             initialAttack = true;
+
+            foreach(Tile ourTile in hitTileList)
+            {
+                if(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name != shipName)
+                {
+                    finalHitTileList.Add(ourTile);
+                }
+            }
+
+            //This is all the tiles that weren't destroyed, and have been hit
+            hitTileList = finalHitTileList;
+
+            //If these aren't equal, that means mainHitTile still hasn't been destroyed, and should stay the same
+            if(shipName == mainHitTile.GetComponent<Tile>().occupierGameStart.name)
+            {
+                Debug.Log("IN THIS");
+                //If this list isn't empty, there are more hit spots that haven't been destroyed
+                if (hitTileList.Count != 0)
+                {
+                    Debug.Log("ISG");
+                    mainHitTile = hitTileList[Random.Range(0, hitTileList.Count)];
+                }
+                else
+                {
+                    mainHitTile = null;
+                }
+            }
+
         }
 
         return destroyed;
@@ -850,6 +880,9 @@ public class GridManager : MonoBehaviour
     //Need to reset this after a ship is destroyed
     public bool initialAttack = true;
     public int attackDir;
+    //This is to keep track of tiles that are hit but not destroyed
+    public List<Tile> hitTileList;
+    public List<Tile> finalHitTileList;
     public void enemyAttack()
     {
         Tile ourTile = chooseTileAttack();
@@ -861,6 +894,10 @@ public class GridManager : MonoBehaviour
         {
             Debug.Log("Hit our ship!");
             ourTile.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
+            hitTileList.Add(ourTile);
+
+            Debug.Log(hitTileList.Count);
 
             if (!mainHitTile)
             {
@@ -875,15 +912,17 @@ public class GridManager : MonoBehaviour
                 prevHitTile = ourTile;
             }
 
+            //If a tile hit isn't the same type as the main tile
+
             //Add ship to list of hit ships
             friendlyHitSpaces.Add(((int)ourTile.gameObject.transform.position.x, (int)ourTile.gameObject.transform.position.y));
 
             if (checkDestroyedFriendly(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name))
             {
                 friendlyDestroyedDelay();
-                mainHitTile = null;
-                prevHitTile = null;
-                initialAttack = true;
+                //mainHitTile = null;
+                //prevHitTile = null;
+                //initialAttack = true;
             }
             else
             {

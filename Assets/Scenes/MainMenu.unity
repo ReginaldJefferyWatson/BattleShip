@@ -1568,6 +1568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 665728519}
+  ourSlider: {fileID: 733037399}
 --- !u!1 &1298484411
 GameObject:
   m_ObjectHideFlags: 0

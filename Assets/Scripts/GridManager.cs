@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class GridManager : MonoBehaviour
 
     private bool paused = false;
     [SerializeField] private GameObject pauseBG;
-
 
     [SerializeField] private Submarine subPrefab;
     [SerializeField] private Destroyer destroyerPrefab;
@@ -202,26 +202,6 @@ public class GridManager : MonoBehaviour
                     enableEnemyTiles();
                 }
 
-            }
-        }
-
-        if (Input.GetKeyDown("escape"))
-        {
-            if (!paused)
-            {
-                Debug.Log("PAUSED");
-                paused = true;
-                Time.timeScale = 0;
-                pauseBG.SetActive(true);
-                disableEnemyTiles();
-            }
-            else
-            {
-                Debug.Log("UNPAUSED");
-                paused = false;
-                Time.timeScale = 1;
-                pauseBG.SetActive(false);
-                enableEnemyTiles();
             }
         }
     }

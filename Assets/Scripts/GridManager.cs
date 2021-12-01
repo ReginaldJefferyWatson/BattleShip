@@ -803,21 +803,31 @@ public class GridManager : MonoBehaviour
 
         if (destroyed)
         {
+
+            Debug.Log("Ship was destroyed");
+
             prevHitTile = null;
             initialAttack = true;
 
-            /*
-            foreach(Tile ourTile in hitTileList)
+            
+            for(int i = 0; i < hitTileList.Count; i++)
             {
-                if(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name != shipName)
+                //If it's not a destroyed tile
+                if(hitTileList[i].gameObject.GetComponent<Tile>().occupierGameStart.name != shipName)
                 {
-                    finalHitTileList.Add(ourTile);
+                    finalHitTileList.Add(hitTileList[i]);
                 }
             }
-            */
 
-            //This is all the tiles that weren't destroyed, and have been hit
-            //hitTileList = finalHitTileList;
+            hitTileList.Clear();
+
+            //Update hitTileList with still viable hit points
+            foreach(Tile ourTile in finalHitTileList)
+            {
+                hitTileList.Add(ourTile);
+            }
+
+            finalHitTileList.Clear();
 
             //If these aren't equal, that means mainHitTile still hasn't been destroyed, and should stay the same
             if(shipName == mainHitTile.GetComponent<Tile>().occupierGameStart.name)
@@ -825,8 +835,10 @@ public class GridManager : MonoBehaviour
                 //If this list isn't empty, there are more hit spots that haven't been destroyed
                 if (hitTileList.Count != 0)
                 {
-                    //mainHitTile = hitTileList[Random.Range(0, hitTileList.Count)];
-                    mainHitTile = null;
+                    mainHitTile = hitTileList[Random.Range(0, hitTileList.Count)];
+                    Debug.Log("NEW MAIN TILE");
+                    Debug.Log(mainHitTile.transform.position.x);
+                    Debug.Log(mainHitTile.transform.position.y);
                 }
                 else
                 {
@@ -949,7 +961,7 @@ public class GridManager : MonoBehaviour
     {
         //A tile HAS TO be attacked here
         while (true) {
-            Debug.Log(attackDir);
+            Debug.Log("Back Here");
 
             if (!mainHitTile)
             {
@@ -1122,7 +1134,11 @@ public class GridManager : MonoBehaviour
                     prevHitTile = null;
                 }
             }
-            //return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count - 1)];
+
+            //If no tile in either direction, choose random just to break out
+            //return ourTileListAttackTrack[Random.Range(0, ourTileListAttackTrack.Count)];
+
+            //If no tile is found in either direction, this means we have to go back to the original main tile and randomly guess again
         }
     }
 

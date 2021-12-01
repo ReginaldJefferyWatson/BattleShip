@@ -806,6 +806,7 @@ public class GridManager : MonoBehaviour
             prevHitTile = null;
             initialAttack = true;
 
+            /*
             foreach(Tile ourTile in hitTileList)
             {
                 if(ourTile.gameObject.GetComponent<Tile>().occupierGameStart.name != shipName)
@@ -813,19 +814,19 @@ public class GridManager : MonoBehaviour
                     finalHitTileList.Add(ourTile);
                 }
             }
+            */
 
             //This is all the tiles that weren't destroyed, and have been hit
-            hitTileList = finalHitTileList;
+            //hitTileList = finalHitTileList;
 
             //If these aren't equal, that means mainHitTile still hasn't been destroyed, and should stay the same
             if(shipName == mainHitTile.GetComponent<Tile>().occupierGameStart.name)
             {
-                Debug.Log("IN THIS");
                 //If this list isn't empty, there are more hit spots that haven't been destroyed
                 if (hitTileList.Count != 0)
                 {
-                    Debug.Log("ISG");
-                    mainHitTile = hitTileList[Random.Range(0, hitTileList.Count)];
+                    //mainHitTile = hitTileList[Random.Range(0, hitTileList.Count)];
+                    mainHitTile = null;
                 }
                 else
                 {
